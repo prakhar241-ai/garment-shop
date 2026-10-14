@@ -1,0 +1,86 @@
+{
+  "app": {
+    "name": "Shop Manager",
+    "tagline": "Stock, sales and udhaar — no notebook"
+  },
+  "lang": {
+    "toggle": "हिंदी",
+    "label": "Language"
+  },
+  "nav": {
+    "sell": "Sell",
+    "stock": "Stock",
+    "receive": "Receive",
+    "udhaar": "Udhaar",
+    "reports": "Reports"
+  },
+  "login": {
+    "title": "Log in",
+    "phone": "Mobile number",
+    "phonePlaceholder": "10-digit number",
+    "pin": "6-digit PIN",
+    "submit": "Log in",
+    "wrong": "Wrong number or PIN. Please try again.",
+    "inactive": "This account is switched off. Please ask the owner.",
+    "badPhone": "Enter a 10-digit mobile number.",
+    "badPin": "PIN must be 6 digits."
+  },
+  "header": {
+    "logout": "Log out",
+    "owner": "Owner",
+    "staff": "Staff",
+    "settings": "Settings"
+  },
+  "common": {
+    "comingSoon": "Coming soon",
+    "phase": "Phase {n}",
+    "save": "Save",
+    "cancel": "Cancel",
+    "error": "Something went wrong. Please try again.",
+    "loading": "Loading…",
+    "items": "{count} items",
+    "variants": "{count} sizes/variants",
+    "size": "Size",
+    "price": "Price",
+    "stock": "Stock",
+    "cost": "Cost"
+  },
+  "sell": {
+    "title": "Sell",
+    "intro": "Scan a barcode to sell — arrives in Phase 2."
+  },
+  "stock": {
+    "title": "Stock",
+    "intro": "Items in your shop",
+    "empty": "No items yet.",
+    "totalUnits": "Total pieces",
+    "costValue": "Stock value at cost",
+    "lowStock": "Low stock"
+  },
+  "receive": {
+    "title": "Receive",
+    "intro": "Enter a supplier bill and print labels — arrives in Phase 1."
+  },
+  "udhaar": {
+    "title": "Udhaar",
+    "intro": "Customer credit — arrives in Phase 3."
+  },
+  "reports": {
+    "title": "Reports",
+    "intro": "Daily close and reports — arrive in Phase 4."
+  },
+  "staff": {
+    "title": "Staff",
+    "add": "Add staff",
+    "name": "Name",
+    "phone": "Mobile number",
+    "pin": "6-digit PIN",
+    "added": "Staff added. Tell them their number and PIN.",
+    "phoneTaken": "This number already has an account.",
+    "deactivate": "Switch off",
+    "activate": "Switch on",
+    "confirmDeactivate": "Switch off {name}'s account?",
+    "inactive": "Off",
+    "ownerOnly": "This page is for the owner only."
+  }
+}

@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f7f5;
+  --surface: #ffffff;
+  --foreground: #14181a;
+  --muted: #5a6468;
+  --border: #d9dedb;
+  --brand: #0f5132;
+  --brand-ink: #ffffff;
+  --danger: #b42318;
+  --warn-bg: #fff4d6;
+  --warn-ink: #7a4b00;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-danger: var(--danger);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ink: var(--warn-ink);
+  /* Latin first so digits stay Latin; Devanagari covers Hindi text. */
+  --font-sans: var(--font-noto-sans), var(--font-noto-devanagari), system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  /* Devanagari needs extra line height so matras are never clipped. */
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+button,
+select {
+  font: inherit;
+}
