@@ -63,10 +63,10 @@ export default async function StockPage() {
         <p className="text-muted">{t("stock.intro")}</p>
       </div>
 
-      <div className={`grid gap-2 ${isOwner ? "grid-cols-3" : "grid-cols-2"}`}>
+      <div className="grid grid-cols-2 gap-2">
         <Stat label={t("stock.totalUnits")} value={String(totalUnits)} />
         <Stat label={t("stock.lowStock")} value={String(lowCount)} warn={lowCount > 0} />
-        {costValue !== null && <Stat label={t("stock.costValue")} value={formatPaise(costValue)} />}
+        {costValue !== null && <Stat label={t("stock.costValue")} value={formatPaise(costValue)} wide />}
       </div>
 
       {(categories ?? []).length === 0 && <p className="text-muted">{t("stock.empty")}</p>}
@@ -114,11 +114,13 @@ export default async function StockPage() {
   );
 }
 
-function Stat({ label, value, warn }: { label: string; value: string; warn?: boolean }) {
+function Stat({ label, value, warn, wide }: { label: string; value: string; warn?: boolean; wide?: boolean }) {
   return (
-    <div className={`rounded-xl px-2.5 py-3 ${warn ? "bg-warn-bg text-warn-ink" : "bg-surface"} border border-border`}>
+    <div
+      className={`rounded-xl border border-border p-3 ${warn ? "bg-warn-bg text-warn-ink" : "bg-surface"} ${wide ? "col-span-2" : ""}`}
+    >
       <p className="text-sm leading-snug">{label}</p>
-      <p className="text-lg font-bold break-all">{value}</p>
+      <p className="text-xl font-bold">{value}</p>
     </div>
   );
 }
