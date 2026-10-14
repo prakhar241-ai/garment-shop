@@ -43,7 +43,9 @@
     "size": "साइज़",
     "price": "दाम",
     "stock": "स्टॉक",
-    "cost": "लागत"
+    "cost": "लागत",
+    "freeSize": "फ़्री साइज़",
+    "ageYears": "{range} साल"
   },
   "sell": {
     "title": "बेचें",

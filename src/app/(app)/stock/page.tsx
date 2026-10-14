@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { requireSession } from "@/lib/session";
 import { formatPaise } from "@/lib/money";
 import { localName } from "@/lib/names";
+import { sizeLabel } from "@/lib/sizes";
 
 type Variant = {
   id: string;
@@ -92,7 +93,7 @@ export default async function StockPage() {
                         className={`rounded-lg px-3 py-2 ${low ? "bg-warn-bg text-warn-ink" : "bg-background"}`}
                       >
                         <div className="flex justify-between font-semibold">
-                          <span>{v.size}</span>
+                          <span>{sizeLabel(v.size, t)}</span>
                           <span>{formatPaise(v.selling_price)}</span>
                         </div>
                         <div className="flex justify-between text-sm">
@@ -115,9 +116,9 @@ export default async function StockPage() {
 
 function Stat({ label, value, warn }: { label: string; value: string; warn?: boolean }) {
   return (
-    <div className={`rounded-xl p-3 ${warn ? "bg-warn-bg text-warn-ink" : "bg-surface"} border border-border`}>
+    <div className={`rounded-xl px-2.5 py-3 ${warn ? "bg-warn-bg text-warn-ink" : "bg-surface"} border border-border`}>
       <p className="text-sm leading-snug">{label}</p>
-      <p className="text-xl font-bold">{value}</p>
+      <p className="text-lg font-bold break-all">{value}</p>
     </div>
   );
 }

@@ -43,7 +43,9 @@
     "size": "Size",
     "price": "Price",
     "stock": "Stock",
-    "cost": "Cost"
+    "cost": "Cost",
+    "freeSize": "Free size",
+    "ageYears": "{range} yrs"
   },
   "sell": {
     "title": "Sell",
