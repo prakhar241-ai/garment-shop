@@ -6,55 +6,7 @@
 // Needs .env.local (run npm run db:setup, db:migrate, db:seed first).
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { beforeAll, describe, expect, it } from "vitest";
-
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const configured = Boolean(URL && ANON && SERVICE);
-
-const email = (phone: string) => `p${phone}@phone-login.example.com`;
-const SHOP_B = { code: "TB", owner: { phone: "9000000091", pin: "918273" } };
-
-async function signIn(phone: string, pin: string): Promise<SupabaseClient> {
-  const client = createClient(URL!, ANON!, { auth: { persistSession: false } });
-  const { error } = await client.auth.signInWithPassword({ email: email(phone), password: pin });
-  if (error) throw new Error(`sign in ${phone}: ${error.message}`);
-  return client;
-}
-
-/** Second shop used only by these tests. Created once, reused afterwards. */
-async function ensureShopB(): Promise<{ shopId: string; categoryId: string }> {
-  const admin = createClient(URL!, SERVICE!, { auth: { persistSession: false } });
-  const { data: found } = await admin.from("shops").select("id").eq("code", SHOP_B.code).maybeSingle();
-  if (found) {
-    const { data: cat } = await admin.from("categories").select("id").eq("shop_id", found.id).single();
-    return { shopId: found.id, categoryId: cat!.id };
-  }
-  const { data: u, error } = await admin.auth.admin.createUser({
-    email: email(SHOP_B.owner.phone),
-    password: SHOP_B.owner.pin,
-    email_confirm: true,
-  });
-  if (error) throw error;
-  const { data: shop } = await admin
-    .from("shops")
-    .insert({ name: "Test Shop B", code: SHOP_B.code, owner_id: u.user.id })
-    .select("id")
-    .single();
-  await admin.from("profiles").insert({
-    id: u.user.id,
-    shop_id: shop!.id,
-    name: "Owner B",
-    phone: SHOP_B.owner.phone,
-    role: "owner",
-  });
-  const { data: cat } = await admin
-    .from("categories")
-    .insert({ shop_id: shop!.id, name_hi: "परीक्षण", name_en: "Test" })
-    .select("id")
-    .single();
-  return { shopId: shop!.id, categoryId: cat!.id };
-}
+import { ANON, DEMO_OWNER, DEMO_STAFF, SHOP_B, URL, configured, ensureShopB, signIn } from "./helpers";
 
 describe.skipIf(!configured)("row level security", () => {
   let ownerA: SupabaseClient;
@@ -64,9 +16,9 @@ describe.skipIf(!configured)("row level security", () => {
 
   beforeAll(async () => {
     shopB = await ensureShopB();
-    ownerA = await signIn("9000000001", "123456");
-    staffA = await signIn("9000000002", "654321");
-    ownerB = await signIn(SHOP_B.owner.phone, SHOP_B.owner.pin);
+    ownerA = await signIn(DEMO_OWNER);
+    staffA = await signIn(DEMO_STAFF);
+    ownerB = await signIn(SHOP_B.owner);
   }, 60_000);
 
   it("shop A sees only its own shop, people and stock", async () => {
