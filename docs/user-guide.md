@@ -7,11 +7,17 @@
 **भाषा बदलें:** ऊपर दाईं ओर "English" बटन दबाएँ। वापस हिंदी के लिए "हिंदी" दबाएँ। आपकी पसंद याद रहती है।
 
 **नीचे के बटन:**
-- **बेचें** — सामान स्कैन करके बेचना (जल्द आएगा)
+- **बेचें** — सामान स्कैन करके बेचना
 - **स्टॉक** — कौन सा सामान कितना बचा है। पीले रंग वाले साइज़ कम बचे हैं।
 - **माल आया** — सप्लायर का बिल डालना और लेबल छापना
 - **उधार** — ग्राहकों का उधार (जल्द आएगा)
 - **रिपोर्ट** — रोज़ का हिसाब (जल्द आएगा)
+
+**बेचना:** "बेचें" → "कैमरे से स्कैन" दबाकर टैग का बारकोड कैमरे के सामने रखें (बीप होगी), या स्कैनर गन से स्कैन करें, या कोड लिखकर "जोड़ें"। सारा सामान जोड़कर नीचे "नकद", "UPI" या "उधार" दबाएँ। उधार के लिए ग्राहक चुनें या नया जोड़ें। बिक्री के बाद "WhatsApp पर पर्ची भेजें" दबा सकते हैं।
+- **बिना टैग का सामान:** "+ बिना टैग वाला सामान" → कैटेगरी, साइज़, दाम।
+- **वापसी / बदलना:** "↩ वापसी" चालू करके लौटाया सामान स्कैन करें, फिर बंद करके नया सामान स्कैन करें। कुल माइनस में हो तो ग्राहक को पैसे वापस दें।
+- **छूट:** "% छूट दें" — स्टाफ के फ़ोन पर मालिक को अपना PIN डालना होगा। दाम कोई नहीं बदल सकता।
+- स्टॉक न हो तब भी बिक्री होगी, पर चेतावनी आएगी — शायद माल आने की एंट्री छूट गई।
 
 **माल आने पर:** "माल आया" → "नया बिल डालें" → सप्लायर चुनें (या नया लिखें) → "+ सामान जोड़ें" → कैटेगरी दबाएँ → सामान चुनें या "+ नया सामान" → खरीद का दाम (एक पीस) → हर साइज़ के पीस → "बिल में जोड़ें"। सारा सामान जोड़कर भुगतान चुनें और "बिल सेव करें और लेबल छापें"। लेबल का साइज़ चुनें और "छापें" दबाएँ। हर पीस पर एक लेबल लगाएँ।
 
@@ -30,11 +36,17 @@
 **Change language:** tap the "हिंदी" / "English" button at the top right. Your choice is remembered.
 
 **Bottom buttons:**
-- **Sell** — scan and sell (coming soon)
+- **Sell** — scan and sell
 - **Stock** — what is left of each item. Sizes in yellow are running low.
 - **Receive** — enter a supplier bill and print labels
 - **Udhaar** — customer credit (coming soon)
 - **Reports** — daily accounts (coming soon)
+
+**Selling:** Sell → "Scan with camera" and hold the tag's barcode in front of the camera (it beeps), or use a scanner gun, or type the code and tap "Add". When everything is in, tap "Cash", "UPI" or "Udhaar" at the bottom. For udhaar, choose or add the customer. After the sale you can tap "Send slip on WhatsApp".
+- **Item without a tag:** "+ Item without tag" → category, size, price.
+- **Return / exchange:** turn on "↩ Return" and scan what comes back, turn it off and scan the new item. If the total is negative, give the customer money back.
+- **Discount:** "% Give discount" — on a staff phone the owner must type their PIN. Nobody can change a price.
+- A sale still goes through when stock shows zero, with a warning — a receiving entry was probably missed.
 
 **When stock arrives:** Receive → "Enter new bill" → choose the supplier (or type a new one) → "+ Add item" → tap the category → choose the item or "+ New item" → cost price per piece → pieces in each size → "Add to bill". When everything is added, choose the payment and tap "Save bill and print labels". Pick the label size and tap "Print". Stick one label on each piece.
 

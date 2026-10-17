@@ -38,8 +38,21 @@ Short record of choices made and why. Newest at the bottom.
 
 **Labels.** Code128 via `jsbarcode` (small, widely used, draws SVG). Three layouts: thermal 50×25 mm (one label per page), A4 65-up (38.1×21.2 mm) and A4 40-up (52.5×29.7 mm), with "skip used labels" for part-used sheets. Printed through the browser's print dialog with CSS `@page`. Verified by printing to PDF and decoding every barcode at 203 dpi.
 
+## 2026-10-17 — Phase 2 (selling)
+
+**All sales go through `make_sale()`.** The phone only sends what was scanned and how it was paid. Prices come from the database (a typed price is accepted only for an untagged quick-sale line). Stock goes down, or up for a returned item; below zero is allowed and reported back as a warning. Direct inserts into `sales`, `sale_items` and `credit_entries` are revoked.
+
+**Returns and exchanges are just negative lines** in the same cart, priced at today's selling price (the shop is fixed-price). A negative total is money back: cash/UPI refund, or "credit to udhaar" which lowers what the customer owes.
+
+**Discount = owner approval.** If the owner is logged in, they can give it. On a staff phone the owner types their PIN; the database checks it against the login hash (`check_owner_pin`, bcrypt via pgcrypto). Wrong PINs are logged; 5 in 10 minutes locks discounts for that shop. The approver is stored on the sale and every discount is in `audit_log`.
+
+**Udhaar on the Sell screen** needs a customer: pick one or add name + phone. The full udhaar screens (list, payments, reminders) are Phase 3.
+
+**Scanning.** Three ways in: the camera (browser `BarcodeDetector` on Android Chrome; `@zxing/browser` fallback on iPhone and laptops, loaded only when the camera opens), a USB/Bluetooth scanner (fast keystrokes + Enter anywhere on the page) and typing the code. The Sell page preloads every sellable size (paged past Supabase's 1000-row limit) so a scan is an instant lookup; codes not in the list are fetched from the server.
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.
 - `vitest` (dev) — unit tests and the Row Level Security tests.
 - `jsbarcode` — draws the Code128 barcodes on labels.
+- `@zxing/browser`, `@zxing/library` — camera barcode reading where the browser has no built-in BarcodeDetector (iPhone, laptops).
