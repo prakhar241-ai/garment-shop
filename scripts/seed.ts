@@ -7,9 +7,9 @@ import { DEMO_CATEGORIES, SIZES, demoStock } from "./seed-data.ts";
 
 export const DEMO = {
   shopCode: "S1",
-  shopName: "डेमो गारमेंट्स",
-  owner: { name: "मालिक (डेमो)", phone: "9000000001", pin: "123456" },
-  staff: { name: "स्टाफ (डेमो)", phone: "9000000002", pin: "654321" },
+  shopName: { hi: "डेमो गारमेंट्स", en: "Demo Garments" },
+  owner: { name: { hi: "मालिक (डेमो)", en: "Owner (Demo)" }, phone: "9000000001", pin: "123456" },
+  staff: { name: { hi: "स्टाफ (डेमो)", en: "Staff (Demo)" }, phone: "9000000002", pin: "654321" },
 };
 
 const admin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
@@ -47,7 +47,11 @@ async function main() {
   const shop = await must(
     admin
       .from("shops")
-      .insert({ name: DEMO.shopName, code: DEMO.shopCode, owner_id: ownerId, created_by: ownerId })
+      .insert({
+        name: DEMO.shopName.hi,
+        name_hi: DEMO.shopName.hi,
+        name_en: DEMO.shopName.en,
+        code: DEMO.shopCode, owner_id: ownerId, created_by: ownerId })
       .select("id")
       .single(),
     "create shop",
@@ -124,8 +128,8 @@ async function main() {
   console.log(`  Staff: ${DEMO.staff.phone} / PIN ${DEMO.staff.pin}`);
 }
 
-function pick(u: { name: string; phone: string }) {
-  return { name: u.name, phone: u.phone, language: "hi" };
+function pick(u: { name: { hi: string; en: string }; phone: string }) {
+  return { name: u.name.hi, name_hi: u.name.hi, name_en: u.name.en, phone: u.phone, language: "hi" };
 }
 
 main().catch((e) => {

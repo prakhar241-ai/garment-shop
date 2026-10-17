@@ -1,22 +1,24 @@
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { BottomNav } from "@/components/BottomNav";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { localName } from "@/lib/names";
 import { requireSession } from "@/lib/session";
 import { logout } from "../login/actions";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const { profile, shop } = await requireSession();
   const t = await getTranslations("header");
+  const locale = await getLocale();
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-md flex-col">
       <header className="sticky top-0 z-10 bg-brand px-4 py-2 text-brand-ink">
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
-            <p className="truncate text-lg font-bold">{shop.name}</p>
+            <p className="truncate text-lg font-bold">{localName(shop, locale)}</p>
             <p className="truncate text-sm opacity-90">
-              {profile.name} · {t(profile.role)}
+              {localName(profile, locale)} · {t(profile.role)}
             </p>
           </div>
           <LanguageToggle />

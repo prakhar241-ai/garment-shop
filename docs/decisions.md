@@ -20,6 +20,8 @@ Short record of choices made and why. Newest at the bottom.
 
 **Barcodes** are `<shop code>-<5 digits>`, e.g. `S1-00042`, unique per shop. `shops.barcode_seq` holds the last number used.
 
+**Bilingual names (2026-10-17).** Shops and profiles also get optional `name_hi` / `name_en`, shown with the same fallback as products, so switching to English leaves no Hindi demo data in the header.
+
 **Sizes** for the demo: S/M/L/XL for apparel and undergarments, "Free" for sarees and bedsheets, 2-3Y…8-9Y for kidswear. Each category has a `size_type` so the receiving grid (Phase 1) knows which sizes to show. To be confirmed with the owner before Phase 1.
 
 **Migrations** are plain SQL files in `supabase/migrations`, applied in order by `npm run db:migrate` through the Supabase Management API (no Docker or Supabase CLI needed on the laptop). Applied files are tracked in `ops.migrations`.

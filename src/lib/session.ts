@@ -9,13 +9,22 @@ export type Profile = {
   id: string;
   shop_id: string;
   name: string;
+  name_hi: string | null;
+  name_en: string | null;
   phone: string;
   role: Role;
   language: "hi" | "en";
   active: boolean;
 };
 
-export type Shop = { id: string; name: string; code: string; settings: { rounding?: string } };
+export type Shop = {
+  id: string;
+  name: string;
+  name_hi: string | null;
+  name_en: string | null;
+  code: string;
+  settings: { rounding?: string };
+};
 
 /** The logged-in user's profile and shop, or a redirect to /login. Cached per request. */
 export const requireSession = cache(async () => {
@@ -27,7 +36,7 @@ export const requireSession = cache(async () => {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, shop_id, name, phone, role, language, active")
+    .select("id, shop_id, name, name_hi, name_en, phone, role, language, active")
     .eq("id", user.id)
     .single<Profile>();
   if (!profile || !profile.active) {
@@ -37,7 +46,7 @@ export const requireSession = cache(async () => {
 
   const { data: shop } = await supabase
     .from("shops")
-    .select("id, name, code, settings")
+    .select("id, name, name_hi, name_en, code, settings")
     .eq("id", profile.shop_id)
     .single<Shop>();
 

@@ -1,14 +1,16 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { localName } from "@/lib/names";
 import { requireOwner } from "@/lib/session";
 import { ActiveToggle, AddStaffForm } from "./StaffForms";
 
 export default async function StaffPage() {
   const { supabase } = await requireOwner();
   const t = await getTranslations();
+  const locale = await getLocale();
 
   const { data: people } = await supabase
     .from("profiles")
-    .select("id, name, phone, role, active")
+    .select("id, name, name_hi, name_en, phone, role, active")
     .order("role")
     .order("name");
 
@@ -24,13 +26,13 @@ export default async function StaffPage() {
             }`}
           >
             <div className="min-w-0">
-              <p className="truncate text-lg font-semibold">{p.name}</p>
+              <p className="truncate text-lg font-semibold">{localName(p, locale)}</p>
               <p className="text-sm text-muted">
                 {p.phone} · {t(`header.${p.role}`)}
                 {!p.active && ` · ${t("staff.inactive")}`}
               </p>
             </div>
-            {p.role === "staff" && <ActiveToggle id={p.id} name={p.name} active={p.active} />}
+            {p.role === "staff" && <ActiveToggle id={p.id} name={localName(p, locale)} active={p.active} />}
           </li>
         ))}
       </ul>
