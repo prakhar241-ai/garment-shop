@@ -26,7 +26,20 @@ Short record of choices made and why. Newest at the bottom.
 
 **Migrations** are plain SQL files in `supabase/migrations`, applied in order by `npm run db:migrate` through the Supabase Management API (no Docker or Supabase CLI needed on the laptop). Applied files are tracked in `ops.migrations`.
 
+## 2026-10-17 — Phase 1 (receive stock and labels)
+
+**Owner's answers:** up to a few thousand variants; sarees and bedsheets are free size; prices round **up to the next ₹10**; no label printer yet, so build for 50×25 mm thermal plus A4 sheets.
+
+**All stock-in goes through `receive_purchase()`** (a SECURITY DEFINER database function). It creates suppliers/products/variants as needed, assigns barcodes from `shops.barcode_seq`, adds stock, records the bill and the supplier balance in one transaction. Staff can enter cost prices but never read them back, and any selling price sent by staff is ignored: new sizes get the suggested price, existing sizes keep theirs. Owner price overrides are logged in `price_changes`.
+
+**Rounding lives in two places on purpose.** `src/lib/pricing.ts` shows suggestions instantly in the form; `round_price()/suggest_price()` in SQL decide the real price so staff cannot bypass it. A test checks both give the same answer for every rule.
+
+**Payment modes on a bill:** `bill` = nothing paid yet (all on the supplier's account), `cash` = paid in full, `mixed` = part paid. The owner can add later payments from the bill page (`pay_purchase()`). Supplier balances are owner-only (`owner_suppliers` view).
+
+**Labels.** Code128 via `jsbarcode` (small, widely used, draws SVG). Three layouts: thermal 50×25 mm (one label per page), A4 65-up (38.1×21.2 mm) and A4 40-up (52.5×29.7 mm), with "skip used labels" for part-used sheets. Printed through the browser's print dialog with CSS `@page`. Verified by printing to PDF and decoding every barcode at 203 dpi.
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.
 - `vitest` (dev) — unit tests and the Row Level Security tests.
+- `jsbarcode` — draws the Code128 barcodes on labels.

@@ -12,8 +12,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const locale = await getLocale();
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-md flex-col">
-      <header className="sticky top-0 z-10 bg-brand px-4 py-2 text-brand-ink">
+    <div className="mx-auto flex min-h-dvh max-w-md flex-col print:block print:max-w-none">
+      <header className="sticky top-0 z-10 bg-brand px-4 py-2 text-brand-ink print:hidden">
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0">
             <p className="truncate text-lg font-bold">{localName(shop, locale)}</p>
@@ -25,7 +25,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </div>
         <div className="mt-1 flex gap-4 text-sm">
           {profile.role === "owner" && (
-            <Link href="/settings/staff" className="underline underline-offset-4">
+            <Link href="/settings" className="underline underline-offset-4">
               {t("settings")}
             </Link>
           )}
@@ -36,7 +36,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </form>
         </div>
       </header>
-      <main className="flex-1 px-4 pt-4 pb-24">{children}</main>
+      <main className="flex-1 px-4 pt-4 pb-24 print:p-0">{children}</main>
       <BottomNav />
     </div>
   );

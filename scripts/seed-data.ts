@@ -1,13 +1,7 @@
 // Demo shop data. Prices are in rupees here for readability; the seed script
 // converts to paise. Kept separate from the script so it is easy to edit.
 
-export const SIZES = {
-  apparel: ["S", "M", "L", "XL"],
-  free: ["Free"],
-  kids: ["2-3Y", "4-5Y", "6-7Y", "8-9Y"],
-} as const;
-
-export type SizeType = keyof typeof SIZES;
+import type { SizeType } from "../src/lib/sizes.ts";
 
 export type SeedCategory = {
   key: string;

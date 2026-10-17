@@ -3,7 +3,8 @@
 //   npm run db:seed
 import { createClient } from "@supabase/supabase-js";
 import { suggestSellingPrice } from "../src/lib/pricing.ts";
-import { DEMO_CATEGORIES, SIZES, demoStock } from "./seed-data.ts";
+import { SIZES } from "../src/lib/sizes.ts";
+import { DEMO_CATEGORIES, demoStock } from "./seed-data.ts";
 
 export const DEMO = {
   shopCode: "S1",

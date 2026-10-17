@@ -37,6 +37,12 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+@media print {
+  body {
+    background: #fff;
+  }
+}
+
 input,
 button,
 select {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { requireSession } from "@/lib/session";
 import { formatPaise } from "@/lib/money";
@@ -49,10 +50,15 @@ export default async function StockPage() {
     const { data: costs } = await supabase
       .from("owner_variant_costs")
       .select("cost_price, stock_qty");
-    costValue = (costs ?? []).reduce((sum, v) => sum + v.cost_price * Math.max(v.stock_qty, 0), 0);
+    costValue = (costs ?? []).reduce(
+      (sum, v) => sum + v.cost_price * Math.max(v.stock_qty, 0),
+      0,
+    );
   }
 
-  const all = (categories ?? []).flatMap((c) => c.products.flatMap((p) => p.variants));
+  const all = (categories ?? []).flatMap((c) =>
+    c.products.flatMap((p) => p.variants),
+  );
   const totalUnits = all.reduce((s, v) => s + v.stock_qty, 0);
   const lowCount = all.filter((v) => v.stock_qty <= v.min_stock).length;
 
@@ -61,15 +67,28 @@ export default async function StockPage() {
       <div>
         <h1 className="text-2xl font-bold">{t("stock.title")}</h1>
         <p className="text-muted">{t("stock.intro")}</p>
+        <p className="text-sm text-muted">{t("labels.reprintHint")}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-2">
         <Stat label={t("stock.totalUnits")} value={String(totalUnits)} />
-        <Stat label={t("stock.lowStock")} value={String(lowCount)} warn={lowCount > 0} />
-        {costValue !== null && <Stat label={t("stock.costValue")} value={formatPaise(costValue)} wide />}
+        <Stat
+          label={t("stock.lowStock")}
+          value={String(lowCount)}
+          warn={lowCount > 0}
+        />
+        {costValue !== null && (
+          <Stat
+            label={t("stock.costValue")}
+            value={formatPaise(costValue)}
+            wide
+          />
+        )}
       </div>
 
-      {(categories ?? []).length === 0 && <p className="text-muted">{t("stock.empty")}</p>}
+      {(categories ?? []).length === 0 && (
+        <p className="text-muted">{t("stock.empty")}</p>
+      )}
 
       {(categories ?? []).map((cat) => (
         <section key={cat.id} className="flex flex-col gap-2">
@@ -80,7 +99,10 @@ export default async function StockPage() {
             </span>
           </h2>
           {cat.products.map((p) => (
-            <article key={p.id} className="rounded-xl border border-border bg-surface p-3">
+            <article
+              key={p.id}
+              className="rounded-xl border border-border bg-surface p-3"
+            >
               <h3 className="text-lg font-semibold">{localName(p, locale)}</h3>
               <ul className="mt-2 grid grid-cols-2 gap-2">
                 {p.variants
@@ -88,20 +110,24 @@ export default async function StockPage() {
                   .map((v) => {
                     const low = v.stock_qty <= v.min_stock;
                     return (
-                      <li
-                        key={v.id}
-                        className={`rounded-lg px-3 py-2 ${low ? "bg-warn-bg text-warn-ink" : "bg-background"}`}
-                      >
-                        <div className="flex justify-between font-semibold">
-                          <span>{sizeLabel(v.size, t)}</span>
-                          <span>{formatPaise(v.selling_price)}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span>
-                            {t("common.stock")}: {v.stock_qty}
-                          </span>
-                          <span className="font-mono text-xs opacity-70">{v.barcode}</span>
-                        </div>
+                      <li key={v.id}>
+                        <Link
+                          href={`/labels?v=${v.id}:1`}
+                          className={`block rounded-lg px-3 py-2 ${low ? "bg-warn-bg text-warn-ink" : "bg-background"}`}
+                        >
+                          <div className="flex justify-between font-semibold">
+                            <span>{sizeLabel(v.size, t)}</span>
+                            <span>{formatPaise(v.selling_price)}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span>
+                              {t("common.stock")}: {v.stock_qty}
+                            </span>
+                            <span className="font-mono text-xs opacity-70">
+                              {v.barcode}
+                            </span>
+                          </div>
+                        </Link>
                       </li>
                     );
                   })}
@@ -114,7 +140,17 @@ export default async function StockPage() {
   );
 }
 
-function Stat({ label, value, warn, wide }: { label: string; value: string; warn?: boolean; wide?: boolean }) {
+function Stat({
+  label,
+  value,
+  warn,
+  wide,
+}: {
+  label: string;
+  value: string;
+  warn?: boolean;
+  wide?: boolean;
+}) {
   return (
     <div
       className={`rounded-xl border border-border p-3 ${warn ? "bg-warn-bg text-warn-ink" : "bg-surface"} ${wide ? "col-span-2" : ""}`}
