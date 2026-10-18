@@ -82,12 +82,13 @@
     <li>Owner and staff — who can do what</li>
     <li>First-day setup (owner)</li>
     <li>A normal day, start to finish</li>
-    <li>Receiving stock — माल आया</li>
+    <li>Receiving stock — माल आया (and 6b: cancelling a wrong bill)</li>
     <li>Printing barcode labels</li>
     <li>Selling — बेचें</li>
     <li>Discounts, untagged items, returns and exchanges</li>
     <li>Udhaar — उधार</li>
-    <li>Stock — स्टॉक</li>
+    <li>Stock — स्टॉक (item page, correcting stock)</li>
+    <li>11b. Low stock and orders — कम स्टॉक और ऑर्डर</li>
     <li>Closing the day — दिन का हिसाब</li>
     <li>Reports and CSV downloads (owner)</li>
     <li>Settings (owner): prices, markup, staff</li>
@@ -184,6 +185,9 @@
     <tr><td>Close the day (count the cash drawer)</td><td class="c">✓</td><td class="c">✓</td></tr>
     <tr><td>Reports: profit, best/slow items, stock value, CSV downloads</td><td class="c">✓</td><td class="c">✗</td></tr>
     <tr><td>Settings: price rounding, markup %, add or switch off staff</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>Correct a size's stock (count, damaged, lost)</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>Cancel a wrongly entered supplier bill</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>See low stock, suggested orders, send order to supplier</td><td class="c">✓</td><td class="c">✓ (no CSV)</td></tr>
     <tr><td>Delete any record</td><td class="c">✗</td><td class="c">✗</td></tr>
   </table>
   <div class="note">These rules are enforced by the database on the server, not just hidden on the screen. Even a staff member who knows computers cannot see cost prices or change a price.</div>
@@ -288,6 +292,29 @@
     </div>
     <figure><img src="img/25-receive-owner.png" alt="Owner view"><figcaption>Owner: dues and bills</figcaption></figure>
     <figure><img src="img/09-receive-staff.png" alt="Staff view"><figcaption>Staff: bills only</figcaption></figure>
+  </div>
+</section>
+
+<section class="chapter">
+  <h2>6b. Cancelling a wrong bill (owner)</h2>
+  <div class="row two">
+    <div>
+      <p>If a bill was entered by mistake — entered twice, wrong supplier, wrong quantities — the owner cancels it and enters it again correctly.</p>
+      <ol class="steps">
+        <li><span class="hi">माल आया</span> → tap the bill.</li>
+        <li>At the bottom tap <span class="btn">बिल रद्द करें</span>.</li>
+        <li>Read the warning, type <b>why</b> (<span class="hi">क्यों रद्द कर रहे हैं?</span>) and tap <span class="btn">हाँ, रद्द करें</span>.</li>
+      </ol>
+      <p>What happens:</p>
+      <ul>
+        <li>All pieces of that bill come <b>off the stock</b>. If some were already sold, the app warns you and those sizes show a minus stock — enter the correct bill to fix them.</li>
+        <li>The bill comes <b>off the supplier's account</b>. Money already paid on it stays as a credit with that supplier.</li>
+        <li>The bill is <b>not deleted</b>: it shows <span class="hi">✕ यह बिल रद्द है</span> with the reason, and leaves the bills list and supplier dues.</li>
+      </ul>
+      <div class="warn">Labels already printed for a cancelled bill still scan to the same items. When you re-enter the bill for the same items and sizes, the same barcodes are used, so the stickers stay valid.</div>
+    </div>
+    <figure><img src="img/38-cancel-form.png" alt="Cancel bill"><figcaption>Cancel a bill, with a reason</figcaption></figure>
+    <figure><img src="img/39-cancelled.png" alt="Cancelled bill"><figcaption>A cancelled bill</figcaption></figure>
   </div>
 </section>
 
@@ -461,17 +488,69 @@
   <div class="row two">
     <div>
       <ul>
-        <li>Top: total pieces in the shop and how many sizes are low (<span class="hi">कम स्टॉक</span>).</li>
-        <li>The owner also sees <b>stock value at cost</b> (<span class="hi">स्टॉक की लागत</span>).</li>
-        <li>Items are grouped by category. Each size shows its price, pieces left and barcode code.</li>
-        <li><b>Yellow</b> sizes are at or below their minimum stock — time to reorder.</li>
-        <li><b>Tap any size</b> to print its label again.</li>
-        <li>A <b>minus</b> stock number means more were sold than were entered as received. Check the supplier bills for a missed entry.</li>
+        <li>Top: total pieces in the shop and how many sizes are low (<span class="hi">कम स्टॉक</span>). The owner also sees <b>stock value at cost</b>.</li>
+        <li><span class="btn">कम स्टॉक और ऑर्डर →</span> opens the reorder screen (chapter 11b).</li>
+        <li>Items are grouped by category. Each size shows its price, pieces left and barcode code. <b>Yellow</b> sizes are at or below their minimum.</li>
+        <li>A <b>minus</b> stock means more were sold than were entered as received — check for a missed or cancelled bill.</li>
+        <li><b>Tap any size</b> to open its item page.</li>
       </ul>
     </div>
     <figure><img src="img/12-stock.png" alt="Stock staff"><figcaption>Stock (staff)</figcaption></figure>
     <figure><img src="img/29-stock-owner.png" alt="Stock owner"><figcaption>Stock (owner sees value)</figcaption></figure>
   </div>
+  <div class="row">
+    <div>
+      <h3>Item page (one size)</h3>
+      <ul>
+        <li>Stock, minimum, price (owner also sees cost).</li>
+        <li><span class="btn">लेबल छापें</span> — print this size's label again.</li>
+        <li><b>In and out</b> (<span class="hi">आना-जाना</span>): every time this size was received, sold, returned by a customer, corrected, or taken off by a cancelled bill — with date and +/− pieces.</li>
+        <li><b>Owner only:</b> <span class="btn">स्टॉक ठीक करें</span> (correct stock) and the <b>minimum stock</b> for this size (<span class="hi">कम से कम स्टॉक</span> → <span class="btn">सेव करें</span>). The minimum decides when the size turns yellow and appears in orders.</li>
+      </ul>
+    </div>
+    <figure><img src="img/34-item.png" alt="Item page"><figcaption>Item page (owner)</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>Correct stock (owner)</h3>
+      <p>Use this after counting the shelf, or when pieces are damaged, lost or sent back to the supplier.</p>
+      <ol class="steps">
+        <li>On the item page tap <span class="btn">स्टॉक ठीक करें</span>.</li>
+        <li>Choose <span class="btn">गिनकर कितने हैं</span> and type the number you counted, <b>or</b> <span class="btn">जोड़ें / घटाएँ</span> and type how many to add (5) or remove (-2).</li>
+        <li>A line like <span class="hi">स्टॉक 5 से 3 हो जाएगा</span> shows the result before saving.</li>
+        <li>Choose the reason: <span class="hi">गिनती सुधार</span> (count correction), <span class="hi">खराब / फटा</span> (damaged), <span class="hi">चोरी / गुम</span> (stolen/lost), <span class="hi">सप्लायर को वापस</span> (returned to supplier). Add a note if useful, then <span class="btn">सेव करें</span>.</li>
+      </ol>
+      <p>Every correction stays in the history with who did it and why. Staff cannot correct stock.</p>
+      <div class="tip">Once a week, count one category's shelf and correct any differences. After a month every item has been checked.</div>
+    </div>
+    <figure><img src="img/35-adjust.png" alt="Correct stock"><figcaption>Correct stock with a reason</figcaption></figure>
+  </div>
+</section>
+
+<section class="chapter">
+  <h2>11b. Low stock and orders — कम स्टॉक और ऑर्डर</h2>
+  <p>Open it from the Stock tab (<span class="btn">कम स्टॉक और ऑर्डर →</span>). Owner and staff can both use it; no money is shown. At the top choose how many days of sales to look at: <span class="btn">14 दिन</span>, <span class="btn">30 दिन</span> or <span class="btn">60 दिन</span>.</p>
+  <div class="row two">
+    <div>
+      <h3>Low stock (<span class="hi">कम स्टॉक</span>)</h3>
+      <p>Every size at or below its minimum, item by item, shown as <b>stock/minimum</b> (e.g. "M: 1/2"). Red means nothing left. Tap a size to open its item page.</p>
+      <h3>What to order (<span class="hi">क्या मँगाएँ</span>)</h3>
+      <p>A list for each supplier — the supplier who last sent that size. Each line says how many to order and why:</p>
+      <div class="formula">Order = sold in the chosen days + minimum stock − stock now<br>Example: 4 sold in 30 days, min 2, 1 left → order 5</div>
+      <ul>
+        <li>Tap <span class="btn">WhatsApp पर भेजें</span>: WhatsApp opens the supplier's chat with the order written out (item, sizes and pieces, total). Check and send. If the supplier has no phone saved, pick the contact yourself.</li>
+        <li>Sizes never received on a bill appear under <span class="hi">सप्लायर पता नहीं</span> (supplier not known).</li>
+        <li>Owner: <span class="hi">⬇ ऑर्डर CSV</span> downloads the full order list.</li>
+        <li>It is a suggestion — change quantities in WhatsApp before sending if you know better (season, festival, a size that never sells).</li>
+      </ul>
+    </div>
+    <figure><img src="img/36-reorder-low.png" alt="Low stock"><figcaption>Low stock by size</figcaption></figure>
+    <figure><img src="img/37-reorder-orders.png" alt="Orders"><figcaption>Suggested order per supplier</figcaption></figure>
+  </div>
+  <h3>Selling fast (<span class="hi">तेज़ी से बिकने वाले</span>)</h3>
+  <p>The 10 items that sold most in the chosen days, with stock left and <b>how many days it will last</b> at that speed (red if under a week). Order these early.</p>
+  <h3>Not selling (<span class="hi">जो नहीं बिक रहे</span>)</h3>
+  <p>Items in stock that have not sold for 30, 60 or 90 days (choose), and nothing new of them came in that time either — so fresh arrivals are never listed. Oldest first, up to 25. Consider moving them to the front, a discount, or not re-ordering.</p>
 </section>
 
 <!-- ===================== 12. DAY CLOSE ===================== -->
@@ -608,10 +687,11 @@
     <tr><td>Camera doesn't read the barcode</td><td>More light, hold the phone 10–15 cm away and steady, barcode flat inside the white box. Creased or faded label? Type the code and reprint the label from Stock.</td></tr>
     <tr><td>"यह कोड नहीं मिला" (code not found)</td><td>The code was typed wrong, or the item's bill was never entered. Enter the bill (Receive), or use "Item without tag" for now.</td></tr>
     <tr><td>Scanner gun does nothing</td><td>Make sure no text box is selected (tap an empty area), the gun is charged and paired. Test it in a notes app — it should type the code and press Enter.</td></tr>
-    <tr><td>"⚠ stock went below zero" after a sale</td><td>Not an error — the sale is saved. More pieces were sold than were entered. Check for a missed supplier bill and enter it.</td></tr>
+    <tr><td>"⚠ stock went below zero" after a sale</td><td>Not an error — the sale is saved. More pieces were sold than were entered. Check for a missed supplier bill and enter it, or correct the stock (chapter 11).</td></tr>
     <tr><td>"मालिक का PIN गलत है" / discounts locked</td><td>Wrong owner PIN. After 5 wrong tries wait 10 minutes. The owner can also give the discount from their own phone.</td></tr>
     <tr><td>Wrong sale (wrong item or amount)</td><td>Sales can't be deleted. Turn on Return, scan the wrong item, scan the right one, and settle the difference.</td></tr>
-    <tr><td>Wrong supplier bill entered</td><td>Bills can't be edited or deleted yet. Write down the details and ask the person who manages the app to correct the stock.</td></tr>
+    <tr><td>Wrong supplier bill entered</td><td>Owner: open the bill → "बिल रद्द करें" with a reason (chapter 6b), then enter the bill again correctly.</td></tr>
+    <tr><td>Shelf count doesn't match the app</td><td>Owner: Stock → tap the size → "स्टॉक ठीक करें" → counted quantity and reason (chapter 11).</td></tr>
     <tr><td>Staff forgot their PIN / owner forgot PIN</td><td>The master user (app manager) sets a new PIN in the master panel → the shop → "PIN बदलें" (chapter 18).</td></tr>
     <tr><td>WhatsApp opens without a contact</td><td>The customer has no phone number. Add it with "नाम/फ़ोन बदलें" on their udhaar page.</td></tr>
     <tr><td>Print is too big / small or labels misaligned</td><td>In the print window set Scale 100% (Actual size) and Margins None. For thermal, set paper size 50×25 mm in the printer settings.</td></tr>
