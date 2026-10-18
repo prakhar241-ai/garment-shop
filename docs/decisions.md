@@ -76,6 +76,19 @@ Short record of choices made and why. Newest at the bottom.
 
 **Master (platform admin) users** run the app for all shops at `/admin`: create shops with their owner and the standard categories, add owners and staff, reset PINs, switch logins on or off. They have no shop and see no shop's sales, costs or udhaar. `platform_admins` has no grants for app users; `is_platform_admin()` answers only for the caller. Master users are created only with `npm run admin:create -- <phone>` (prints a random PIN once). Every master page and server action calls `requireMaster()` before using the service-role client. The logic lives in `src/lib/admin/ops.ts` so it is tested directly. One phone number = one login, so the master number cannot be a shop login.
 
+## 2026-10-18 — Fix-a-mistake tools and Phase 5 (reorder help)
+
+**Stock adjustment** (`adjust_stock()`, owner only): set the counted quantity or add/remove pieces, with a reason (count correction, damaged, stolen/lost, returned to supplier) and an optional note. Each change is a `stock_adjustments` row and in the audit log. Tapping a size on Stock now opens its item page: details, in-and-out history (received, sold, returned, corrected, bill cancelled), print label, and for the owner, correct stock and minimum stock.
+
+**Cancelling a supplier bill** (`cancel_purchase()`, owner only, reason required): the bill's pieces come off the stock (sizes already sold go below zero and are reported), the bill total comes off the supplier's account (money already paid stays as a credit with the supplier), and the bill and its lines get `deleted_at` + `cancel_reason`. Nothing is deleted; the bill shows as cancelled.
+
+**Reorder help.** `reorder_rows(days)` (caller's rights, no money) gives each size its stock, minimum, pieces sold in the window, last sale, and the supplier who last sent it. The rules live in `src/lib/reorder.ts` and are unit-tested:
+- low stock = stock ≤ minimum;
+- suggested order = sold in window + minimum − stock (below-zero stock counts as 0), grouped by last supplier, each line showing why ("4 sold · 1 left · min 2");
+- fast movers = most sold, with days of stock left at that speed;
+- dead stock = in stock, not sold for N days (30/60/90) and nothing received in that time either.
+Orders go to the supplier on WhatsApp (their number if known) and to CSV (owner). Supplier phones are stored as 10 digits like customer phones.
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.

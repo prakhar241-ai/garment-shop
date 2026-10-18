@@ -63,3 +63,23 @@ export async function payBill(purchaseId: string, amount: number): Promise<{ err
   revalidatePath(`/receive/${purchaseId}`);
   revalidatePath("/receive");
 }
+
+export type CancelError = "reason_required" | "already_cancelled" | "owner_only" | "generic";
+
+/** Owner cancels a wrongly entered bill. cancel_purchase() reverses stock and
+ *  the supplier's account and keeps the bill, marked cancelled. */
+export async function cancelBill(
+  purchaseId: string,
+  reason: string,
+): Promise<{ error: CancelError } | { negative: { barcode: string; stock_qty: number }[] }> {
+  const { supabase } = await requireOwner();
+  const { data, error } = await supabase.rpc("cancel_purchase", { p_purchase: purchaseId, p_reason: reason });
+  if (error) {
+    const known: CancelError[] = ["reason_required", "already_cancelled", "owner_only"];
+    return { error: known.find((k) => error.message.includes(k)) ?? "generic" };
+  }
+  revalidatePath(`/receive/${purchaseId}`);
+  revalidatePath("/receive");
+  revalidatePath("/stock");
+  return { negative: (data as { negative: { barcode: string; stock_qty: number }[] }).negative };
+}

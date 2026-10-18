@@ -3,10 +3,11 @@ import { toCsv, rupees, type Cell } from "@/lib/csv";
 import { formatDate } from "@/lib/money";
 import { localName } from "@/lib/names";
 import { resolvePeriod } from "@/lib/period";
+import { buildOrders, type ReorderRow } from "@/lib/reorder";
 import { sizeLabel } from "@/lib/sizes";
 import { createClient } from "@/lib/supabase/server";
 
-const KINDS = ["sales", "daily", "categories", "products", "stock", "udhaar", "purchases", "closes"] as const;
+const KINDS = ["sales", "daily", "categories", "products", "stock", "udhaar", "purchases", "closes", "reorder"] as const;
 type Kind = (typeof KINDS)[number];
 
 /**
@@ -152,6 +153,27 @@ export async function GET(req: Request, { params }: RouteContext<"/api/export/[k
         rupees(r.amount_paid),
         rupees(r.total - r.amount_paid),
       ]);
+      break;
+    }
+    case "reorder": {
+      ranged = false;
+      const days = [14, 30, 60].includes(Number(url.searchParams.get("days"))) ? Number(url.searchParams.get("days")) : 30;
+      const { data } = await supabase.rpc("reorder_rows", { p_days: days });
+      headers = [t("supplier"), t("phone"), t("product"), t("size"), t("orderQty"), t("sold"), t("stock"), t("minStock")];
+      rows = buildOrders((data ?? []) as ReorderRow[]).flatMap((o) =>
+        o.items.flatMap((item) =>
+          item.lines.map((l) => [
+            o.supplier ?? "",
+            o.phone ?? "",
+            localName({ name: item.row.product, name_hi: item.row.product_hi, name_en: item.row.product_en }, locale),
+            sizeLabel(l.size, tAll),
+            l.qty,
+            l.sold,
+            l.stock,
+            l.min,
+          ]),
+        ),
+      );
       break;
     }
     case "closes": {

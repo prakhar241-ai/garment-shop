@@ -338,7 +338,7 @@
     "total": "{count} labels in all",
     "print": "Print",
     "none": "Nothing to print.",
-    "reprintHint": "Tap a size to reprint its label."
+    "reprintHint": "Tap a size to see its history, print its label or correct its stock."
   },
   "settings": {
     "title": "Settings",
@@ -410,7 +410,8 @@
     "udhaarGiven": "Udhaar given",
     "udhaarCash": "Udhaar collected cash",
     "udhaarUpi": "Udhaar collected UPI",
-    "period": "Period"
+    "period": "Period",
+    "orderQty": "Order qty"
   },
   "close": {
     "title": "Day close",
@@ -502,5 +503,99 @@
       "badCode": "Code must start with a letter, up to 5 characters.",
       "error": "Something went wrong. Please try again."
     }
+  },
+  "item": {
+    "back": "← Stock",
+    "barcode": "Barcode",
+    "price": "Price",
+    "cost": "Cost",
+    "stock": "Stock",
+    "min": "Min",
+    "printLabel": "Print label",
+    "adjust": "Correct stock",
+    "adjustTitle": "Correct stock",
+    "modeSet": "Counted quantity",
+    "modeChange": "Add / remove",
+    "counted": "How many pieces are really there",
+    "change": "How many pieces (+ add, − remove)",
+    "reason": "Reason",
+    "reasons": {
+      "count_correction": "Count correction",
+      "damage": "Damaged / torn",
+      "theft": "Stolen / lost",
+      "return": "Returned to supplier"
+    },
+    "notes": "Notes (optional)",
+    "willBe": "Stock will change from {from} to {to}",
+    "save": "Save",
+    "saved": "Stock corrected",
+    "minTitle": "Minimum stock",
+    "minHint": "At or below this, the size shows yellow and appears in the order list.",
+    "minSaved": "Saved",
+    "history": "In and out",
+    "noHistory": "Nothing yet.",
+    "h": {
+      "purchase": "Received · {supplier}",
+      "sale": "Sold",
+      "return": "Returned by customer",
+      "adjust": "Corrected · {reason}",
+      "cancelled": "Bill cancelled"
+    },
+    "err": {
+      "owner_only": "Only the owner can do this.",
+      "no_change": "Stock is already that number.",
+      "bad_qty": "Enter a valid number.",
+      "bad_reason": "Choose a reason.",
+      "generic": "Not saved. Please try again."
+    }
+  },
+  "cancel": {
+    "button": "Cancel this bill",
+    "title": "Cancel this bill?",
+    "explain": "Cancel a bill that was entered by mistake. Its pieces come off the stock and the bill comes off the supplier's account. Money already paid stays as a credit with the supplier. The bill is not deleted; it shows as cancelled.",
+    "reason": "Why are you cancelling it?",
+    "confirm": "Yes, cancel it",
+    "keep": "No",
+    "cancelled": "This bill is cancelled",
+    "cancelledReason": "Reason: {reason}",
+    "negative": "Note: some of these pieces were already sold; their stock is now below zero:",
+    "err": {
+      "reason_required": "Type a reason.",
+      "already_cancelled": "This bill is already cancelled.",
+      "owner_only": "Only the owner can do this.",
+      "generic": "Not cancelled. Please try again."
+    }
+  },
+  "reorder": {
+    "title": "Low stock and orders",
+    "card": "Low stock and orders →",
+    "cardHint": "What is running out, what to order",
+    "window": "Look at sales of the last",
+    "days": "{count} days",
+    "low": "Low stock",
+    "lowHint": "At or below the minimum you want on the shelf",
+    "noLow": "No size is low.",
+    "orders": "What to order (by supplier)",
+    "ordersHint": "Order = sold in the last {days} days + minimum stock − stock now",
+    "noOrders": "Nothing needs ordering right now.",
+    "unknownSupplier": "Supplier not known",
+    "pieces": "{count} pcs in all",
+    "why": "{sold} sold · {stock} left · min {min}",
+    "send": "Send on WhatsApp",
+    "sendNoPhone": "WhatsApp (pick contact)",
+    "msgGreeting": "Namaste, please send these items:",
+    "msgClosing": "Thank you",
+    "fast": "Selling fast",
+    "fastHint": "How many days the stock lasts at this speed",
+    "sold": "{count} sold",
+    "daysLeft": "lasts {count} days",
+    "stockLeft": "Stock {count}",
+    "dead": "Not selling",
+    "deadDays": "Not sold for",
+    "deadHint": "In stock, not sold for {days} days and nothing new received in that time",
+    "lastSold": "Last sold {date}",
+    "neverSold": "Never sold",
+    "noDead": "No such items.",
+    "csv": "⬇ Order CSV"
   }
 }

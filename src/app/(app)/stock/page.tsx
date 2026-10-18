@@ -70,6 +70,11 @@ export default async function StockPage() {
         <p className="text-sm text-muted">{t("labels.reprintHint")}</p>
       </div>
 
+      <Link href="/stock/reorder" className="flex min-h-16 flex-col justify-center rounded-2xl bg-brand px-4 py-3 text-brand-ink">
+        <span className="text-lg font-bold">{t("reorder.card")}</span>
+        <span className="text-sm opacity-90">{t("reorder.cardHint")}</span>
+      </Link>
+
       <div className="grid grid-cols-2 gap-2">
         <Stat label={t("stock.totalUnits")} value={String(totalUnits)} />
         <Stat
@@ -112,7 +117,7 @@ export default async function StockPage() {
                     return (
                       <li key={v.id}>
                         <Link
-                          href={`/labels?v=${v.id}:1`}
+                          href={`/stock/${v.id}`}
                           className={`block rounded-lg px-3 py-2 ${low ? "bg-warn-bg text-warn-ink" : "bg-background"}`}
                         >
                           <div className="flex justify-between font-semibold">
