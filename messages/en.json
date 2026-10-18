@@ -201,7 +201,56 @@
   },
   "udhaar": {
     "title": "Udhaar",
-    "intro": "Customer credit — arrives in Phase 3."
+    "intro": "Customer credit",
+    "totalOut": "Total udhaar due",
+    "customersOwing": "{count} customers owe money",
+    "sortAmount": "Most owed",
+    "sortAge": "Oldest",
+    "sortName": "By name",
+    "search": "Search name or phone",
+    "showAll": "Also show customers who owe nothing",
+    "none": "No customers found.",
+    "nothingDue": "Nobody owes anything.",
+    "addCustomer": "+ New customer",
+    "newTitle": "New customer",
+    "name": "Name",
+    "phone": "Mobile number (optional)",
+    "opening": "Old udhaar (from the notebook)",
+    "openingHint": "If this customer already owes money, enter how much and since when.",
+    "since": "Since",
+    "save": "Save",
+    "days": "{count} days",
+    "today": "Since today",
+    "settled": "All paid",
+    "lastPaid": "Last paid {date}",
+    "neverPaid": "Nothing paid yet",
+    "owes": "Owes",
+    "receive": "Money received",
+    "amount": "Amount received",
+    "full": "Full {amount}",
+    "mode": "Paid by",
+    "cash": "Cash",
+    "upi": "UPI",
+    "notes": "Notes (optional)",
+    "saved": "Payment recorded",
+    "remind": "Remind on WhatsApp",
+    "remindHi": "In Hindi",
+    "remindEn": "In English",
+    "noPhone": "No phone number — add one to send a reminder.",
+    "history": "Account",
+    "sale": "Goods on udhaar",
+    "openingEntry": "Old udhaar",
+    "payment": "Payment",
+    "returnCredit": "Goods returned",
+    "balance": "Due {amount}",
+    "edit": "Change name/phone",
+    "back": "← Udhaar",
+    "err": {
+      "bad_amount": "Amount can't be zero or more than what is due.",
+      "name_required": "Type a name.",
+      "bad_date": "The date can't be in the future.",
+      "generic": "Not saved. Please try again."
+    }
   },
   "reports": {
     "title": "Reports",
@@ -249,5 +298,8 @@
     "minStock": "Min stock",
     "example": "₹100 cost → {price}",
     "saved": "Saved"
+  },
+  "reminder": {
+    "text": "Hello {name}, a balance of {amount} is due at {shop}. Kindly clear it at your convenience. Thank you!"
   }
 }

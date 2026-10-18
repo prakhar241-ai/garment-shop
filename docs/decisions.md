@@ -50,6 +50,16 @@ Short record of choices made and why. Newest at the bottom.
 
 **Scanning.** Three ways in: the camera (browser `BarcodeDetector` on Android Chrome; `@zxing/browser` fallback on iPhone and laptops, loaded only when the camera opens), a USB/Bluetooth scanner (fast keystrokes + Enter anywhere on the page) and typing the code. The Sell page preloads every sellable size (paged past Supabase's 1000-row limit) so a scan is an instant lookup; codes not in the list are fetched from the server.
 
+## 2026-10-18 — Phase 3 (udhaar)
+
+**A balance only moves through the database functions:** `make_sale()` (udhaar sale or return credit), `record_payment()` (customer pays, cash or UPI, never more than is due) and `add_customer()` (optional opening balance from the old notebook, with the date it started). `customers.outstanding` cannot be written by the app directly; name and phone can.
+
+**"Since when" uses first-in, first-out.** Payments clear the oldest udhaar first, so the age shown is the date of the oldest credit not yet covered (`customer_aging` view, security-invoker so Row Level Security still applies). Colours: under 30 days normal, 30–59 amber, 60+ red.
+
+**Reminders** open WhatsApp with a ready message in Hindi or English (two buttons), independent of the app's current language. Built from the message files with `createTranslator`.
+
+**Customer phones are stored as 10 digits** (database trigger), whatever was typed, so search and WhatsApp links are consistent.
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.
