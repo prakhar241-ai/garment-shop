@@ -11,7 +11,7 @@
 - **स्टॉक** — कौन सा सामान कितना बचा है। पीले रंग वाले साइज़ कम बचे हैं।
 - **माल आया** — सप्लायर का बिल डालना और लेबल छापना
 - **उधार** — किस ग्राहक पर कितना बाकी है और कब से
-- **रिपोर्ट** — रोज़ का हिसाब (जल्द आएगा)
+- **रिपोर्ट** — दिन का हिसाब बंद करना; मालिक के लिए बिक्री, मुनाफ़ा, स्टॉक और CSV
 
 **बेचना:** "बेचें" → "कैमरे से स्कैन" दबाकर टैग का बारकोड कैमरे के सामने रखें (बीप होगी), या स्कैनर गन से स्कैन करें, या कोड लिखकर "जोड़ें"। सारा सामान जोड़कर नीचे "नकद", "UPI" या "उधार" दबाएँ। उधार के लिए ग्राहक चुनें या नया जोड़ें। बिक्री के बाद "WhatsApp पर पर्ची भेजें" दबा सकते हैं।
 - **बिना टैग का सामान:** "+ बिना टैग वाला सामान" → कैटेगरी, साइज़, दाम।
@@ -21,6 +21,10 @@
 
 **उधार:** "उधार" में सबसे ऊपर कुल बाकी दिखता है। "सबसे ज़्यादा" / "सबसे पुराना" से क्रम बदलें। पीला = 30 दिन से ज़्यादा, लाल = 60 दिन से ज़्यादा। ग्राहक दबाएँ → "पैसे मिले" → रकम (पूरी या कुछ) → नकद या UPI → "सेव करें"। "हिंदी में" / "English में" दबाकर WhatsApp पर याद दिलाएँ।
 - **कॉपी का पुराना उधार:** "+ नया ग्राहक" → नाम, फ़ोन, "पुराना उधार" में रकम और कब से।
+
+**दिन बंद करना (हर शाम):** "रिपोर्ट" → "आज का हिसाब बंद करें" → सुबह गल्ले में कितना था, दिन में कितना नकद निकाला (खर्च/सप्लायर) → गल्ला गिनकर रकम डालें। ऐप बताएगा कितना कम या ज़्यादा है। कल के लिए गल्ले में कितना छोड़ा, डालकर "हिसाब बंद करें"।
+
+**रिपोर्ट (मालिक):** ऊपर अवधि चुनें (आज, 7 दिन, यह महीना…)। कुल बिक्री, मुनाफ़ा, रोज़ की बिक्री, कैटेगरी और साइज़ के हिसाब से, सबसे ज़्यादा बिकने वाले, जो नहीं बिक रहे, और स्टॉक की कीमत। नीचे से CSV डाउनलोड करके Excel में खोलें — यह आपका बैकअप भी है।
 
 **माल आने पर:** "माल आया" → "नया बिल डालें" → सप्लायर चुनें (या नया लिखें) → "+ सामान जोड़ें" → कैटेगरी दबाएँ → सामान चुनें या "+ नया सामान" → खरीद का दाम (एक पीस) → हर साइज़ के पीस → "बिल में जोड़ें"। सारा सामान जोड़कर भुगतान चुनें और "बिल सेव करें और लेबल छापें"। लेबल का साइज़ चुनें और "छापें" दबाएँ। हर पीस पर एक लेबल लगाएँ।
 
@@ -43,7 +47,7 @@
 - **Stock** — what is left of each item. Sizes in yellow are running low.
 - **Receive** — enter a supplier bill and print labels
 - **Udhaar** — who owes how much, and since when
-- **Reports** — daily accounts (coming soon)
+- **Reports** — close the day; for the owner, sales, margin, stock and CSV downloads
 
 **Selling:** Sell → "Scan with camera" and hold the tag's barcode in front of the camera (it beeps), or use a scanner gun, or type the code and tap "Add". When everything is in, tap "Cash", "UPI" or "Udhaar" at the bottom. For udhaar, choose or add the customer. After the sale you can tap "Send slip on WhatsApp".
 - **Item without a tag:** "+ Item without tag" → category, size, price.
@@ -53,6 +57,10 @@
 
 **Udhaar:** the Udhaar tab shows the total due at the top. Switch between "Most owed" and "Oldest". Amber = over 30 days, red = over 60 days. Tap a customer → "Money received" → amount (full or part) → Cash or UPI → "Save". Tap "In Hindi" / "In English" to send a WhatsApp reminder.
 - **Old udhaar from the notebook:** "+ New customer" → name, phone, and under "Old udhaar" the amount and since when.
+
+**Closing the day (every evening):** Reports → "Close today's accounts" → cash in the drawer this morning, cash taken out today (expenses/suppliers) → count the drawer and type the amount. The app shows how much is short or extra. Enter what you leave in the drawer for tomorrow and tap "Close the day".
+
+**Reports (owner):** pick the period at the top (Today, 7 days, This month…). Net sales, margin, sales by day, by category and size, best sellers, items not selling, and stock value. Download CSVs at the bottom and open them in Excel — they also work as your own backup.
 
 **When stock arrives:** Receive → "Enter new bill" → choose the supplier (or type a new one) → "+ Add item" → tap the category → choose the item or "+ New item" → cost price per piece → pieces in each size → "Add to bill". When everything is added, choose the payment and tap "Save bill and print labels". Pick the label size and tap "Print". Stick one label on each piece.
 

@@ -54,7 +54,7 @@ export async function ensureShopB(): Promise<{ shopId: string; categoryId: strin
     .update({ owner_id: ownerId, settings: { rounding: "10", currency: "INR" } })
     .eq("id", shopId);
 
-  let { data: cat } = await admin.from("categories").select("id").eq("shop_id", shopId).limit(1).maybeSingle();
+  let { data: cat } = await admin.from("categories").select("id").eq("shop_id", shopId).order("created_at").limit(1).maybeSingle();
   if (!cat) {
     ({ data: cat } = await admin
       .from("categories")

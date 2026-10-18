@@ -60,6 +60,18 @@ Short record of choices made and why. Newest at the bottom.
 
 **Customer phones are stored as 10 digits** (database trigger), whatever was typed, so search and WhatsApp links are consistent.
 
+## 2026-10-18 — Phase 4 (daily close and reports)
+
+**Days are Indian calendar days** everywhere (`ist_day_start()` in SQL, `istToday()` in the app).
+
+**Daily close.** `day_summary()` runs with the caller's rights (no cost prices), so staff can close the day. Expected cash = cash in the drawer in the morning + cash sales (net of cash refunds) + udhaar collected in cash − cash taken out (expenses, suppliers). The close stores the counted cash, the difference and what was left in the drawer, which pre-fills the next day's opening cash. Closing again on the same day updates that day's row.
+
+**Reports are owner-only** and run in SECURITY DEFINER functions that return nothing to staff. A bill discount is spread over its lines in proportion to their value, so margins by category and size add up to the real takings. Slow movers = in stock, not sold in the chosen period, oldest last sale first.
+
+**Charts** are single-series horizontal bars with the value printed on every bar, so the list is also the table view and nothing depends on colour.
+
+**CSV export** (`/api/export/<kind>`) for every sale, day by day, categories, items, purchase bills, day closes, stock and udhaar. UTF-8 with BOM so Excel shows Hindi; headings in the user's language; cells that start like a formula are neutralised.
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.
