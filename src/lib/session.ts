@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { redirect } from "next/navigation";
+import { createAdminClient } from "./supabase/admin";
 import { createClient } from "./supabase/server";
 
 export type Role = "owner" | "staff";
@@ -39,6 +40,11 @@ export const requireSession = cache(async () => {
     .select("id, shop_id, name, name_hi, name_en, phone, role, language, active")
     .eq("id", user.id)
     .single<Profile>();
+  if (!profile) {
+    // Master users have no shop; their home is the master panel.
+    const { data: master } = await supabase.rpc("is_platform_admin");
+    if (master) redirect("/admin");
+  }
   if (!profile || !profile.active) {
     await supabase.auth.signOut();
     redirect("/login?error=inactive");
@@ -58,4 +64,17 @@ export async function requireOwner() {
   const session = await requireSession();
   if (session.profile.role !== "owner") redirect("/sell");
   return session;
+}
+
+/** Master (platform admin) only. Returns the user and a service-role client
+ *  for the master operations; anyone else is sent away. */
+export async function requireMaster() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const { data: master } = await supabase.rpc("is_platform_admin");
+  if (!master) redirect("/sell");
+  return { user, admin: createAdminClient() };
 }

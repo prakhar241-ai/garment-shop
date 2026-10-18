@@ -25,7 +25,11 @@ export async function login(_prev: LoginState, form: FormData): Promise<LoginSta
     .from("profiles")
     .select("language, active")
     .eq("id", data.user.id)
-    .single();
+    .maybeSingle();
+  if (!profile) {
+    const { data: master } = await supabase.rpc("is_platform_admin");
+    if (master) redirect("/admin");
+  }
   if (!profile?.active) {
     await supabase.auth.signOut();
     return { error: "inactive" };

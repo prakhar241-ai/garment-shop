@@ -94,6 +94,7 @@
     <li>How the app keeps your money safe</li>
     <li>Problems and answers (FAQ)</li>
     <li>Hindi ↔ English button list</li>
+    <li>Master panel (app manager only)</li>
   </ol>
 
   <h3>What this app does</h3>
@@ -611,7 +612,7 @@
     <tr><td>"मालिक का PIN गलत है" / discounts locked</td><td>Wrong owner PIN. After 5 wrong tries wait 10 minutes. The owner can also give the discount from their own phone.</td></tr>
     <tr><td>Wrong sale (wrong item or amount)</td><td>Sales can't be deleted. Turn on Return, scan the wrong item, scan the right one, and settle the difference.</td></tr>
     <tr><td>Wrong supplier bill entered</td><td>Bills can't be edited or deleted yet. Write down the details and ask the person who manages the app to correct the stock.</td></tr>
-    <tr><td>Staff forgot their PIN / owner forgot PIN</td><td>There is no "forgot PIN" button yet. Ask the person who manages the app to set a new PIN.</td></tr>
+    <tr><td>Staff forgot their PIN / owner forgot PIN</td><td>The master user (app manager) sets a new PIN in the master panel → the shop → "PIN बदलें" (chapter 18).</td></tr>
     <tr><td>WhatsApp opens without a contact</td><td>The customer has no phone number. Add it with "नाम/फ़ोन बदलें" on their udhaar page.</td></tr>
     <tr><td>Print is too big / small or labels misaligned</td><td>In the print window set Scale 100% (Actual size) and Margins None. For thermal, set paper size 50×25 mm in the printer settings.</td></tr>
     <tr><td>Something shows "कुछ गड़बड़ हुई" or won't save</td><td>Check the internet, then try again. The app needs internet for every save.</td></tr>
@@ -648,6 +649,48 @@
     <tr><td class="hi">दुकान और दाम</td><td>Shop and prices</td><td class="hi">मुनाफ़ा % / कम से कम स्टॉक</td><td>Markup % / Min stock</td></tr>
     <tr><td class="hi">बंद करें / चालू करें</td><td>Switch off / on</td><td class="hi">सेव करें / रद्द करें</td><td>Save / Cancel</td></tr>
   </table>
+</section>
+
+<!-- ===================== 18. MASTER ===================== -->
+<section class="chapter">
+  <h2>18. Master panel (app manager only)</h2>
+  <p>The master panel is for the person who runs the app for all shops — not for shop owners or staff. Log in on the normal login page with the <b>master mobile number and PIN</b>; the app opens <span class="hi">मास्टर पैनल</span> (dark blue header) instead of a shop. Only master users can open it; shop owners and staff who try are sent back to their shop. Master users are created only by the app's developer (<code>npm run admin:create</code>), never from inside the app.</p>
+  <div class="row two">
+    <div>
+      <h3>All shops</h3>
+      <p>The home page lists every shop with its code, owner name and phone, number of staff, and switched-off logins. Tap a shop to manage it.</p>
+      <h3>Create a new shop</h3>
+      <ol class="steps">
+        <li>Tap <span class="btn">+ नई दुकान</span>.</li>
+        <li>Shop name in Hindi and/or English.</li>
+        <li><b>Shop code</b> — filled in automatically (S2, S3…). Barcodes of that shop start with it (S2-00001). Leave it unless there is a reason.</li>
+        <li>Shop language and price rounding (<span class="hi">₹10 तक ऊपर</span> etc.).</li>
+        <li>Keep the tick to add the 5 standard garment categories.</li>
+        <li><b>Owner:</b> name, mobile number and PIN. A random PIN is filled in; <span class="btn">नया PIN बनाएँ</span> makes another. Note it down.</li>
+        <li>Tap <span class="btn">दुकान बनाएँ</span>, then tell the owner their number and PIN.</li>
+      </ol>
+    </div>
+    <figure><img src="img/31-master-home.png" alt="Master home"><figcaption>Master panel: all shops</figcaption></figure>
+    <figure><img src="img/32-master-new-shop.png" alt="New shop"><figcaption>Create a new shop</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>Manage a shop's logins</h3>
+      <ul>
+        <li><span class="btn">+ नया लॉगिन जोड़ें</span> — add a <b>staff</b> member or another <b>owner</b> (choose the role), with name, phone and PIN. The number and PIN are shown once to pass on.</li>
+        <li><span class="btn">PIN बदलें</span> — set a new PIN for anyone who forgot theirs. The old PIN stops working at once.</li>
+        <li><span class="btn">बंद करें</span> / <span class="btn">चालू करें</span> — switch a login off (they can no longer log in; past records stay) or back on.</li>
+      </ul>
+      <p>Every master action is recorded in the shop's audit log.</p>
+      <h3>Rules</h3>
+      <ul>
+        <li>One mobile number = one login. The master number cannot also be a shop login.</li>
+        <li><span class="hi">मेरा मास्टर PIN बदलें</span> at the bottom of the home page changes your own master PIN. Do it after the first login.</li>
+        <li>The master panel does not show any shop's sales, costs or udhaar — only shops and logins.</li>
+      </ul>
+    </div>
+    <figure><img src="img/33-master-shop.png" alt="Shop logins"><figcaption>A shop's logins (example)</figcaption></figure>
+  </div>
 </section>
 
 </div>

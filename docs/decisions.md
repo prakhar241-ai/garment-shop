@@ -72,6 +72,10 @@ Short record of choices made and why. Newest at the bottom.
 
 **CSV export** (`/api/export/<kind>`) for every sale, day by day, categories, items, purchase bills, day closes, stock and udhaar. UTF-8 with BOM so Excel shows Hindi; headings in the user's language; cells that start like a formula are neutralised.
 
+## 2026-10-18 — Master panel
+
+**Master (platform admin) users** run the app for all shops at `/admin`: create shops with their owner and the standard categories, add owners and staff, reset PINs, switch logins on or off. They have no shop and see no shop's sales, costs or udhaar. `platform_admins` has no grants for app users; `is_platform_admin()` answers only for the caller. Master users are created only with `npm run admin:create -- <phone>` (prints a random PIN once). Every master page and server action calls `requireMaster()` before using the service-role client. The logic lives in `src/lib/admin/ops.ts` so it is tested directly. One phone number = one login, so the master number cannot be a shop login.
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.

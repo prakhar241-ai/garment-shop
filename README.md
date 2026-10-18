@@ -27,6 +27,14 @@ npm run db:migrate   # apply supabase/migrations/*.sql
 npm run db:seed      # demo shop: 5 categories, 30 products
 ```
 
+## Master panel
+
+`/admin` is for the person who runs the app for all shops (create shops, owners, staff; reset PINs). Create or re-PIN a master login with:
+
+```bash
+npm run admin:create -- 9876543210   # prints a new random PIN once
+```
+
 ## Tests
 
 ```bash

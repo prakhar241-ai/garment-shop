@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "db:setup": "node --env-file=.env.supabase scripts/setup-project.ts",
     "db:migrate": "node --env-file=.env.supabase scripts/migrate.ts",
-    "db:seed": "node --env-file=.env.local scripts/seed.ts"
+    "db:seed": "node --env-file=.env.local scripts/seed.ts",
+    "admin:create": "node --env-file=.env.local scripts/create-admin.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
