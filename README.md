@@ -1,6 +1,6 @@
 # Garment Shop Manager
 
-Phone-first web app (installable PWA) for small Indian garment shops: stock, labels, selling and udhaar, in Hindi and English. The full brief is in [`CLAUDE.md`](CLAUDE.md); decisions are in [`docs/decisions.md`](docs/decisions.md).
+Phone-first web app (installable PWA) for small Indian garment shops: stock, labels, selling and udhaar, in Hindi and English. **User guide (PDF with screenshots):** [`docs/guide/Dukaan_Manager_User_Guide.pdf`](docs/guide/Dukaan_Manager_User_Guide.pdf). The full brief is in [`CLAUDE.md`](CLAUDE.md); decisions are in [`docs/decisions.md`](docs/decisions.md).
 
 ## Run locally
 

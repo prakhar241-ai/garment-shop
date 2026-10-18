@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dukaan Manager — User Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14181a; --muted: #5a6468; --line: #d9dedb; --brand: #0f5132; --brand-soft: #e7f1ec;
+    --warn: #fff4d6; --warn-ink: #7a4b00; --danger: #b42318; --bg: #ffffff;
+  }
+  @page { size: A4; margin: 14mm 14mm 16mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 10.5pt/1.55 "Noto Sans", "Noto Sans Devanagari", sans-serif; }
+  .page { max-width: 182mm; margin: 0 auto; }
+  h1 { font-size: 26pt; line-height: 1.15; margin: 0 0 4mm; color: var(--brand); }
+  h2 { font-size: 16pt; margin: 0 0 3mm; padding-top: 2mm; color: var(--brand); border-bottom: 2px solid var(--brand); padding-bottom: 1.5mm; }
+  h3 { font-size: 12pt; margin: 5mm 0 1.5mm; }
+  p { margin: 0 0 2.5mm; }
+  ul, ol { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1mm; }
+  .hi { font-family: "Noto Sans Devanagari", "Noto Sans", sans-serif; font-weight: 600; }
+  .btn { display: inline-block; padding: 0 2mm; border: 1px solid var(--brand); border-radius: 2mm; color: var(--brand);
+         font-family: "Noto Sans Devanagari", "Noto Sans", sans-serif; font-weight: 600; font-size: 9.5pt; white-space: nowrap; }
+  .chapter { break-before: page; }
+  .row { display: grid; grid-template-columns: 1fr 52mm; gap: 6mm; align-items: start; margin-bottom: 4mm; break-inside: avoid; }
+  .row.two { grid-template-columns: 1fr 52mm 52mm; }
+  figure { margin: 0; }
+  figure img { width: 100%; border: 1px solid var(--line); border-radius: 3mm; display: block; }
+  figcaption { font-size: 8.5pt; color: var(--muted); margin-top: 1mm; text-align: center; }
+  .tip, .warn, .note { border-radius: 2.5mm; padding: 2.5mm 3.5mm; margin: 2mm 0 3.5mm; break-inside: avoid; }
+  .tip { background: var(--brand-soft); border-left: 4px solid var(--brand); }
+  .warn { background: var(--warn); border-left: 4px solid var(--warn-ink); color: var(--warn-ink); }
+  .note { background: #f4f5f4; border-left: 4px solid var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin: 1mm 0 4mm; font-size: 9.5pt; break-inside: avoid; }
+  th, td { border: 1px solid var(--line); padding: 1.5mm 2mm; text-align: left; vertical-align: top; }
+  th { background: var(--brand-soft); }
+  td.c, th.c { text-align: center; }
+  .cover { min-height: 255mm; display: flex; flex-direction: column; justify-content: center; }
+  .cover .sub { font-size: 14pt; color: var(--muted); margin-bottom: 8mm; }
+  .cover .box { border: 2px solid var(--brand); border-radius: 4mm; padding: 5mm 6mm; max-width: 120mm; }
+  .toc { columns: 2; column-gap: 10mm; padding-left: 5mm; }
+  .toc li { break-inside: avoid; }
+  .steps { counter-reset: s; list-style: none; padding-left: 0; }
+  .steps > li { counter-increment: s; position: relative; padding-left: 8mm; margin-bottom: 2mm; }
+  .steps > li::before { content: counter(s); position: absolute; left: 0; top: 0.2mm; width: 5.5mm; height: 5.5mm; border-radius: 50%;
+                        background: var(--brand); color: #fff; font-size: 8.5pt; font-weight: 700; text-align: center; line-height: 5.5mm; }
+  .formula { font-family: "Noto Sans", sans-serif; background: #f4f5f4; border-radius: 2mm; padding: 2.5mm 3.5mm; margin: 2mm 0 3mm; font-weight: 600; }
+  .small { font-size: 9pt; color: var(--muted); }
+  @media screen {
+    body { background: #eef0ee; }
+    .page { background: #fff; padding: 14mm; margin: 6mm auto; box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+    .chapter { margin-top: 10mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ===================== COVER ===================== -->
+<section class="cover">
+  <h1>Dukaan Manager<br><span class="hi" style="font-size:20pt">दुकान मैनेजर</span></h1>
+  <p class="sub">Complete user guide — owner and staff<br>Stock · Labels · Selling · Udhaar · Day close · Reports</p>
+  <div class="box">
+    <p><b>Open the app:</b> <a href="https://garment-shop-wine.vercel.app">https://garment-shop-wine.vercel.app</a></p>
+    <p><b>Works on:</b> any Android phone or iPhone (Chrome or Safari), and on a laptop browser. Needs internet.</p>
+    <p><b>Demo logins</b> (practice shop "डेमो गारमेंट्स"):<br>
+      Owner — phone <b>9000000001</b>, PIN <b>123456</b><br>
+      Staff — phone <b>9000000002</b>, PIN <b>654321</b></p>
+    <p class="small" style="margin:0">Version 1 (Phases 0–4), October 2026. Screens in this guide are shown in Hindi, the app's default language; every button name is given in Hindi as it appears, with its meaning in English.</p>
+  </div>
+</section>
+
+<!-- ===================== CONTENTS ===================== -->
+<section class="chapter">
+  <h2>Contents</h2>
+  <ol class="toc">
+    <li>Getting started — open, install, log in</li>
+    <li>The screen: header and the five tabs</li>
+    <li>Owner and staff — who can do what</li>
+    <li>First-day setup (owner)</li>
+    <li>A normal day, start to finish</li>
+    <li>Receiving stock — माल आया</li>
+    <li>Printing barcode labels</li>
+    <li>Selling — बेचें</li>
+    <li>Discounts, untagged items, returns and exchanges</li>
+    <li>Udhaar — उधार</li>
+    <li>Stock — स्टॉक</li>
+    <li>Closing the day — दिन का हिसाब</li>
+    <li>Reports and CSV downloads (owner)</li>
+    <li>Settings (owner): prices, markup, staff</li>
+    <li>How the app keeps your money safe</li>
+    <li>Problems and answers (FAQ)</li>
+    <li>Hindi ↔ English button list</li>
+  </ol>
+
+  <h3>What this app does</h3>
+  <p>It replaces the paper notebook. You tag every item once when it arrives, scan it when it sells, and the app keeps count of stock, sales, udhaar and cash — no writing.</p>
+  <ul>
+    <li><b>Receive stock:</b> enter the supplier's bill; the app suggests the selling price and makes a barcode for every size.</li>
+    <li><b>Print labels:</b> one sticker per piece with name, size, price and barcode.</li>
+    <li><b>Sell:</b> scan the barcode with the phone camera or a scanner gun, tap Cash / UPI / Udhaar. Stock goes down by itself.</li>
+    <li><b>Udhaar:</b> who owes how much and since when; record payments; send WhatsApp reminders.</li>
+    <li><b>Close the day:</b> count the cash drawer and see if anything is short.</li>
+    <li><b>Reports (owner):</b> sales, profit, best and slow items, stock value, Excel downloads.</li>
+  </ul>
+</section>
+
+<!-- ===================== 1. GETTING STARTED ===================== -->
+<section class="chapter">
+  <h2>1. Getting started</h2>
+  <div class="row">
+    <div>
+      <h3>Open the app</h3>
+      <p>On the phone, open <b>Chrome</b> (Android) or <b>Safari</b> (iPhone) and go to <b>garment-shop-wine.vercel.app</b>.</p>
+
+      <h3>Put it on the home screen (do this once)</h3>
+      <ul>
+        <li><b>Android / Chrome:</b> tap the ⋮ menu at the top right → <b>Add to Home screen</b> (or <b>Install app</b>) → Add.</li>
+        <li><b>iPhone / Safari:</b> tap the Share button → <b>Add to Home Screen</b> → Add.</li>
+      </ul>
+      <p>A green <b>₹</b> icon called <b>Dukaan</b> appears. Open the app from that icon from now on — it opens full screen like a normal app.</p>
+
+      <h3>Log in</h3>
+      <ol class="steps">
+        <li>Type your 10-digit mobile number in <span class="hi">मोबाइल नंबर</span>.</li>
+        <li>Type your 6-digit PIN in <span class="hi">6 अंकों का PIN</span>.</li>
+        <li>Tap <span class="btn">अंदर जाएँ</span> (Log in).</li>
+      </ol>
+      <p>The owner gives each staff member their number and PIN (see chapter 14). There is no SMS/OTP — nothing to wait for.</p>
+
+      <h3>Change language</h3>
+      <p>The button at the top right switches language: it shows <span class="btn">English</span> when the app is in Hindi, and <span class="btn">हिंदी</span> when it is in English. Each person's choice is remembered, even on another phone.</p>
+
+      <h3>Log out</h3>
+      <p>Tap <span class="hi">बाहर निकलें</span> under your name at the top. Always log out if the phone is shared or lost.</p>
+    </div>
+    <figure><img src="img/01-login.png" alt="Login screen"><figcaption>Login screen</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 2. SCREEN ===================== -->
+<section class="chapter">
+  <h2>2. The screen: header and the five tabs</h2>
+  <div class="row">
+    <div>
+      <h3>Header (green bar at the top)</h3>
+      <ul>
+        <li>Shop name, your name and role (<span class="hi">मालिक</span> = owner, <span class="hi">स्टाफ</span> = staff).</li>
+        <li><span class="hi">सेटिंग</span> — settings (owner only).</li>
+        <li><span class="hi">बाहर निकलें</span> — log out.</li>
+        <li>Language button (English / हिंदी).</li>
+      </ul>
+      <h3>Bottom tabs</h3>
+      <table>
+        <tr><th>Tab</th><th>Meaning</th><th>Use it to…</th></tr>
+        <tr><td class="hi">बेचें</td><td>Sell</td><td>Scan and sell, returns, discounts, today's sales</td></tr>
+        <tr><td class="hi">स्टॉक</td><td>Stock</td><td>See what is left of every size; reprint a label</td></tr>
+        <tr><td class="hi">माल आया</td><td>Receive</td><td>Enter a supplier bill and print labels</td></tr>
+        <tr><td class="hi">उधार</td><td>Udhaar</td><td>Customer credit, payments, reminders</td></tr>
+        <tr><td class="hi">रिपोर्ट</td><td>Reports</td><td>Close the day; owner reports and downloads</td></tr>
+      </table>
+      <div class="tip">Every main job takes 3 taps or fewer. If something needs more, tell the person who set up the app.</div>
+    </div>
+    <figure><img src="img/02-sell-empty.png" alt="Sell screen"><figcaption>The Sell tab (first screen after login)</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 3. ROLES ===================== -->
+<section class="chapter">
+  <h2>3. Owner and staff — who can do what</h2>
+  <table>
+    <tr><th>Job</th><th class="c">Owner</th><th class="c">Staff</th></tr>
+    <tr><td>Sell, scan, take returns and exchanges</td><td class="c">✓</td><td class="c">✓</td></tr>
+    <tr><td>Change a selling price</td><td class="c">✓ (while entering a bill)</td><td class="c">✗ never</td></tr>
+    <tr><td>Give a discount</td><td class="c">✓</td><td class="c">only with the owner's PIN</td></tr>
+    <tr><td>Enter a supplier bill, print labels</td><td class="c">✓</td><td class="c">✓</td></tr>
+    <tr><td>See cost price, bill totals, supplier dues</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>Pay a supplier bill later</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>Add udhaar customers, record udhaar payments, send reminders</td><td class="c">✓</td><td class="c">✓</td></tr>
+    <tr><td>Close the day (count the cash drawer)</td><td class="c">✓</td><td class="c">✓</td></tr>
+    <tr><td>Reports: profit, best/slow items, stock value, CSV downloads</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>Settings: price rounding, markup %, add or switch off staff</td><td class="c">✓</td><td class="c">✗</td></tr>
+    <tr><td>Delete any record</td><td class="c">✗</td><td class="c">✗</td></tr>
+  </table>
+  <div class="note">These rules are enforced by the database on the server, not just hidden on the screen. Even a staff member who knows computers cannot see cost prices or change a price.</div>
+</section>
+
+<!-- ===================== 4. FIRST-DAY SETUP ===================== -->
+<section class="chapter">
+  <h2>4. First-day setup (owner)</h2>
+  <p>Do these once, in this order, before the first real day.</p>
+  <div class="row">
+    <div>
+      <h3>Step 1 — Prices and markup</h3>
+      <p><span class="hi">सेटिंग</span> → <span class="hi">दुकान और दाम</span>:</p>
+      <ul>
+        <li><b>How to round prices</b> (<span class="hi">दाम कैसे गोल करें</span>). Your shop uses <b>₹10 तक ऊपर</b>: the suggested price is always rounded <i>up</i> to the next ₹10 (₹453 → ₹460).</li>
+        <li><b>Markup % per category</b> (<span class="hi">मुनाफ़ा %</span>). 50% means a ₹300 shirt is suggested at ₹450. The grey line "₹100 का माल → ₹150" shows the effect live.</li>
+        <li><b>Min stock</b> (<span class="hi">कम से कम स्टॉक</span>): sizes at or below this show in yellow on the Stock tab.</li>
+      </ul>
+      <p>Tap <span class="btn">सेव करें</span>. See chapter 14 for details.</p>
+      <h3>Step 2 — Add staff</h3>
+      <p><span class="hi">सेटिंग</span> → <span class="hi">स्टाफ</span> → name, mobile number, a 6-digit PIN → <span class="btn">सेव करें</span>. Tell each person their number and PIN.</p>
+    </div>
+    <figure><img src="img/27-settings-shop.png" alt="Shop and prices"><figcaption>Settings → Shop and prices</figcaption></figure>
+  </div>
+  <h3>Step 3 — Enter the stock already in the shop</h3>
+  <p>Use <span class="hi">माल आया</span> → <span class="hi">नया बिल डालें</span> exactly as for a new bill (chapter 6), with these choices:</p>
+  <ul>
+    <li>Supplier: choose <span class="hi">+ नया सप्लायर</span> and name it <b>"पुराना स्टॉक"</b> (old stock), or use the real supplier if you know it.</li>
+    <li>Payment: choose <span class="btn">नकद पूरा दिया</span> (paid in full) so the app does not show money due to anyone.</li>
+    <li>Print the labels and stick them on every piece.</li>
+  </ul>
+  <div class="tip">Do it one category at a time (all sarees, then all shirts…). It is the biggest job of the first day, and the most important — every piece needs a label to be scanned later.</div>
+  <h3>Step 4 — Copy udhaar from the notebook</h3>
+  <p><span class="hi">उधार</span> → <span class="hi">+ नया ग्राहक</span> → name, phone, and under <span class="hi">पुराना उधार (कॉपी से)</span> the amount and the date it started. See chapter 10.</p>
+  <h3>Step 5 — Tomorrow's opening cash</h3>
+  <p>On the first evening, close the day (chapter 12). The amount you leave in the drawer becomes the next morning's opening cash automatically.</p>
+</section>
+
+<!-- ===================== 5. DAILY ROUTINE ===================== -->
+<section class="chapter">
+  <h2>5. A normal day, start to finish</h2>
+  <table>
+    <tr><th>When</th><th>What to do</th><th>Where</th></tr>
+    <tr><td>Morning</td><td>Open the app, check you are logged in. Plug in / pair the scanner gun if you use one.</td><td>—</td></tr>
+    <tr><td>Stock arrives</td><td>Enter the supplier bill, print labels, stick one on every piece <b>before</b> putting it on the shelf.</td><td class="hi">माल आया</td></tr>
+    <tr><td>Customer buys</td><td>Scan each item → tap Cash / UPI / Udhaar. Send the WhatsApp slip if the customer wants it.</td><td class="hi">बेचें</td></tr>
+    <tr><td>Return / exchange</td><td>Turn on Return, scan what comes back, turn it off, scan the new item.</td><td class="hi">बेचें</td></tr>
+    <tr><td>Udhaar customer pays</td><td>Open the customer → Money received.</td><td class="hi">उधार</td></tr>
+    <tr><td>Untagged item</td><td>"Item without tag" → category, size, price. Then print a label for it later.</td><td class="hi">बेचें</td></tr>
+    <tr><td>Evening</td><td>Count the cash drawer and close the day.</td><td class="hi">रिपोर्ट → आज का हिसाब बंद करें</td></tr>
+    <tr><td>Weekly (owner)</td><td>Look at Reports: best and slow items, udhaar older than 30 days, stock value. Download the CSVs as your own copy.</td><td class="hi">रिपोर्ट, उधार</td></tr>
+  </table>
+</section>
+
+<!-- ===================== 6. RECEIVING ===================== -->
+<section class="chapter">
+  <h2>6. Receiving stock — माल आया</h2>
+  <div class="row">
+    <div>
+      <h3>Start a bill</h3>
+      <ol class="steps">
+        <li>Tap the <span class="hi">माल आया</span> tab → <span class="btn">नया बिल डालें</span>.</li>
+        <li><b>Supplier</b> (<span class="hi">सप्लायर</span>): pick from the list, or <span class="hi">+ नया सप्लायर</span> and type the name (phone optional).</li>
+        <li><b>Bill number</b> and <b>bill date</b> from the paper bill (date is today by default).</li>
+        <li>Tap <span class="btn">+ सामान जोड़ें</span> for each item on the bill.</li>
+      </ol>
+    </div>
+    <figure><img src="img/10-new-bill.png" alt="New bill"><figcaption>New bill</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>Add an item</h3>
+      <ol class="steps">
+        <li>Tap the <b>category</b> (साड़ी, शर्ट, बच्चों के कपड़े…).</li>
+        <li>Tap the <b>item</b> if it already exists, or <span class="hi">+ नया सामान</span> and type its name. The second box is the name in the other language (optional) — fill it so the name also shows in English.</li>
+        <li><b>Cost price per piece</b> (<span class="hi">खरीद का दाम (एक पीस)</span>) from the supplier's bill.</li>
+        <li><b>Pieces in each size</b> (<span class="hi">हर साइज़ में कितने पीस</span>): type how many of each size came. Leave sizes that didn't come empty. Sarees and bedsheets have one "फ़्री साइज़" box; kidswear shows ages (2-3 साल…).</li>
+        <li>Check the price line, then tap <span class="btn">बिल में जोड़ें</span>.</li>
+      </ol>
+      <h3>The selling price</h3>
+      <ul>
+        <li><b>Staff</b> see the price only: the current price for an item already in stock, or the <b>suggested price</b> (cost + category markup, rounded up to ₹10) for a new item. Staff cannot change it.</li>
+        <li><b>Owner</b> sees a price box filled with the current or suggested price, and can type a different one. <span class="hi">यही रखें</span> puts the suggestion back. A changed price applies to all sizes of that item and is recorded in the price history.</li>
+      </ul>
+    </div>
+    <figure><img src="img/11-bill-item.png" alt="Adding an item"><figcaption>Adding an item: category, item, cost</figcaption></figure>
+  </div>
+  <h3>Payment and saving</h3>
+  <p>When all items are added, the bill total shows. Choose how it was paid:</p>
+  <table>
+    <tr><th>Button</th><th>Meaning</th><th>Effect</th></tr>
+    <tr><td class="hi">बाद में (खाते में)</td><td>Pay later</td><td>Whole amount added to what you owe the supplier</td></tr>
+    <tr><td class="hi">नकद पूरा दिया</td><td>Paid in full</td><td>Nothing due</td></tr>
+    <tr><td class="hi">कुछ दिया</td><td>Part paid</td><td>Type the amount paid; the rest is due</td></tr>
+  </table>
+  <p>Tap <span class="btn">बिल सेव करें और लेबल छापें</span>. The stock goes up straight away and the label page opens (chapter 7).</p>
+  <div class="row two">
+    <div>
+      <h3>Bills list and paying a supplier later (owner)</h3>
+      <p>The Receive tab lists recent bills. The owner also sees <span class="hi">सप्लायरों का बाकी</span> (due to suppliers). To pay: tap the bill → type the amount under <span class="hi">कितना दिया</span> → <span class="btn">भुगतान जोड़ें</span>. Each bill page also has <span class="btn">लेबल छापें</span> to print its labels again.</p>
+      <div class="note">Staff see bills (supplier, date, pieces) but never the money — no cost, totals or dues.</div>
+    </div>
+    <figure><img src="img/25-receive-owner.png" alt="Owner view"><figcaption>Owner: dues and bills</figcaption></figure>
+    <figure><img src="img/09-receive-staff.png" alt="Staff view"><figcaption>Staff: bills only</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 7. LABELS ===================== -->
+<section class="chapter">
+  <h2>7. Printing barcode labels</h2>
+  <div class="row">
+    <div>
+      <p>The label page opens after every bill, or from <b>Stock</b>: tap any size to reprint its label.</p>
+      <ol class="steps">
+        <li>Choose the <b>label size</b> (<span class="hi">लेबल का साइज़</span>):
+          <ul>
+            <li><span class="hi">थर्मल रोल 50×25 मिमी</span> — thermal label printer roll.</li>
+            <li><span class="hi">A4 शीट – 65 लेबल</span> — A4 sticker sheet, 65 per sheet (38×21 mm).</li>
+            <li><span class="hi">A4 शीट – 40 लेबल</span> — A4 sticker sheet, 40 per sheet (52×30 mm).</li>
+          </ul>
+          The phone remembers your choice.</li>
+        <li>Check the <b>copies</b> (<span class="hi">कॉपी</span>) for each size with − / +. After a bill it is one label per piece received.</li>
+        <li>For a part-used A4 sheet, type how many stickers are already used in <span class="hi">शीट पर पहले से इस्तेमाल लेबल छोड़ें</span>; printing starts after them.</li>
+        <li>Tap <span class="btn">छापें · कुल N लेबल</span> and choose the printer in the print window.</li>
+      </ol>
+      <p>Each label shows the item name, size, price and a barcode with its code (like <b>S1-00042</b>).</p>
+      <h3>Printing tips</h3>
+      <ul>
+        <li><b>A4 sheets</b> print on any normal printer. In the print window set <b>Scale 100% / Actual size</b> and margins <b>None</b>.</li>
+        <li><b>Thermal printer:</b> easiest from a laptop with the printer's driver installed: open the app in Chrome on the laptop and print. Set paper size 50×25 mm in the printer settings. From a phone, choose "Save as PDF" and print the PDF from the printer's own app.</li>
+        <li>Buying a printer: 50×25 mm, 203 dpi, direct thermal, USB (Bluetooth is a bonus). Examples: TSC TE244, TVS LP 46 Neo, Xprinter XP-365B.</li>
+        <li>Stick the label where it is easy to scan and won't fold — on the swing tag or the packet.</li>
+      </ul>
+    </div>
+    <figure><img src="img/13-labels.png" alt="Label page"><figcaption>Label page</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 8. SELLING ===================== -->
+<section class="chapter">
+  <h2>8. Selling — बेचें</h2>
+  <div class="row">
+    <div>
+      <h3>Add items — three ways</h3>
+      <ol class="steps">
+        <li><b>Phone camera:</b> tap <span class="btn">कैमरे से स्कैन</span>. The first time, allow camera access. Hold the barcode inside the white box. A beep and a buzz mean it was added. Keep scanning — the camera stays open. Tap <span class="hi">कैमरा बंद करें</span> when done.</li>
+        <li><b>Scanner gun</b> (USB or Bluetooth): just scan. Nothing needs to be tapped first.</li>
+        <li><b>Type the code</b> printed under the barcode (e.g. S1-00042) in the box and tap <span class="btn">जोड़ें</span>. Use this if a label is torn.</li>
+      </ol>
+      <p>Scanning the same item again adds 1 more. Use <b>−</b> / <b>+</b> on a line to change the number of pieces. Prices cannot be changed.</p>
+      <h3>Get paid</h3>
+      <p>The big number at the bottom (<span class="hi">कुल रकम</span>) is what the customer pays. Tap one button:</p>
+      <ul>
+        <li><span class="btn">नकद</span> — cash</li>
+        <li><span class="btn">UPI</span> — Google Pay / PhonePe / Paytm etc.</li>
+        <li><span class="btn">उधार</span> — on credit (choose the customer — see below)</li>
+      </ul>
+      <p>Check the money is received before tapping. A green screen <span class="hi">✓ बिक्री हो गई</span> confirms the sale.</p>
+    </div>
+    <figure><img src="img/03-sell-cart.png" alt="Cart"><figcaption>Cart with total and payment buttons</figcaption></figure>
+  </div>
+  <div class="row two">
+    <div>
+      <h3>Selling on udhaar</h3>
+      <p>Tap <span class="btn">उधार</span>. A list of customers opens: search by name or phone and tap the customer, or <span class="hi">+ नया ग्राहक</span> → name and phone → <span class="btn">उधार पर दें</span>. The amount is added to what that customer owes.</p>
+      <h3>After the sale</h3>
+      <ul>
+        <li><span class="btn">WhatsApp पर पर्ची भेजें</span> opens WhatsApp with a slip (items, total, how paid). For an udhaar customer with a phone it opens their chat directly; otherwise choose the contact.</li>
+        <li>Tap <span class="btn">नई बिक्री</span> for the next customer.</li>
+        <li>If you see <b>⚠ stock went below zero</b>, the app thought that item was out of stock. The sale is still saved — but tell the owner: probably a receiving entry was missed.</li>
+      </ul>
+      <h3>Today's sales</h3>
+      <p><span class="hi">आज की बिक्री</span> (top right of the Sell tab) lists every sale today with time, items, payment, staff name, and totals for cash, UPI and udhaar.</p>
+    </div>
+    <figure><img src="img/06-udhaar-picker.png" alt="Customer picker"><figcaption>Choose the udhaar customer</figcaption></figure>
+    <figure><img src="img/30-sale-done.png" alt="Sale done"><figcaption>Sale done</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 9. DISCOUNT / QUICK / RETURNS ===================== -->
+<section class="chapter">
+  <h2>9. Discounts, untagged items, returns and exchanges</h2>
+  <div class="row">
+    <div>
+      <h3>Discount — only with the owner</h3>
+      <ol class="steps">
+        <li>Tap <span class="btn">% छूट दें</span>.</li>
+        <li>Type the discount in rupees (<span class="hi">छूट ₹ में</span>) <b>or</b> percent (<span class="hi">या % में</span>). The new total shows.</li>
+        <li>On a staff phone the <b>owner types their own PIN</b> in <span class="hi">मालिक का PIN</span>. The owner's own phone doesn't ask.</li>
+        <li>Tap <span class="btn">लागू करें</span>, then take payment as usual.</li>
+      </ol>
+      <p>Every discount is saved with who approved it, and shows in the day close and reports.</p>
+      <div class="warn"><b>Wrong PIN 5 times in 10 minutes</b> locks discounts for the whole shop for 10 minutes. This stops anyone guessing the owner's PIN. Selling without discount still works.</div>
+      <p><span class="hi">छूट हटाएँ</span> removes the discount before payment.</p>
+    </div>
+    <figure><img src="img/04-discount.png" alt="Discount"><figcaption>Discount with owner PIN</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>Item without a tag</h3>
+      <p>For a piece that has no label: <span class="btn">+ बिना टैग वाला सामान</span> → tap the category → tap the size (optional) → type the price → how many → <span class="btn">जोड़ें</span>. It is recorded under that category so reports stay right.</p>
+      <div class="tip">Afterwards, find the item on the Stock tab and print a label for its siblings still on the shelf, so this doesn't happen again.</div>
+    </div>
+    <figure><img src="img/05-quick-sale.png" alt="Item without tag"><figcaption>Item without a tag</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>Return and exchange</h3>
+      <ol class="steps">
+        <li>Tap <span class="btn">↩ वापसी</span> — it turns red and a line says return is on.</li>
+        <li>Scan the item(s) the customer brings back. They show in red with <span class="hi">↩ वापस</span> and a minus amount. Stock goes back up.</li>
+        <li><b>Exchange:</b> tap <span class="btn">↩ वापसी</span> again to turn it off, then scan the new item(s). The total becomes the difference.</li>
+        <li>If the total is <b>plus</b>, the customer pays as normal. If it is <b>minus</b> (<span class="hi">ग्राहक को वापस</span>), the buttons change to:
+          <ul>
+            <li><span class="btn">नकद वापस</span> — give cash back</li>
+            <li><span class="btn">UPI वापस</span> — send money back by UPI</li>
+            <li><span class="btn">उधार में जमा</span> — reduce what the customer owes (choose the customer)</li>
+          </ul></li>
+      </ol>
+      <p>Returned items are credited at today's price (the shop is fixed-price).</p>
+    </div>
+    <figure><img src="img/07-return-exchange.png" alt="Exchange"><figcaption>Exchange: one back, one new</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 10. UDHAAR ===================== -->
+<section class="chapter">
+  <h2>10. Udhaar — उधार</h2>
+  <div class="row">
+    <div>
+      <h3>The list</h3>
+      <ul>
+        <li>The green box shows the <b>total udhaar due</b> and how many customers owe money.</li>
+        <li>Sort with <span class="btn">सबसे ज़्यादा</span> (owes most), <span class="btn">सबसे पुराना</span> (owed longest) or <span class="btn">नाम से</span> (by name). Search by name or phone.</li>
+        <li>Each customer shows the amount and <b>since how many days</b> (<span class="hi">X दिन से</span>):
+          normal under 30 days, <b style="color:var(--warn-ink)">yellow 30–59 days</b>, <b style="color:var(--danger)">red 60 days or more</b>.</li>
+        <li>Customers who owe nothing are hidden; tick <span class="hi">जिन पर बाकी नहीं, उन्हें भी दिखाएँ</span> to see them.</li>
+      </ul>
+      <p>"Since when" counts from the <b>oldest unpaid</b> udhaar. Payments clear the oldest amount first, like the notebook.</p>
+    </div>
+    <figure><img src="img/14-udhaar-list.png" alt="Udhaar list"><figcaption>Udhaar list</figcaption></figure>
+  </div>
+  <div class="row two">
+    <div>
+      <h3>Customer page</h3>
+      <p>Tap a customer to see what they owe, since when, the last payment, and the <b>account</b> (<span class="hi">हिसाब</span>): every udhaar sale with the items bought, every payment and return, and the balance after each.</p>
+      <h3>Money received</h3>
+      <ol class="steps">
+        <li>Tap <span class="btn">पैसे मिले</span>.</li>
+        <li>The full amount is filled in. For a part payment, type the amount received.</li>
+        <li>Tap <span class="btn">नकद</span> or <span class="btn">UPI</span>, add a note if you like, tap <span class="btn">सेव करें</span>.</li>
+      </ol>
+      <p>You cannot enter more than is due. When everything is paid it shows <span class="hi">सब चुकता</span>.</p>
+    </div>
+    <figure><img src="img/15-customer.png" alt="Customer"><figcaption>Customer page</figcaption></figure>
+    <figure><img src="img/16-payment.png" alt="Payment"><figcaption>Money received</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>WhatsApp reminder</h3>
+      <p>Under <span class="hi">WhatsApp पर याद दिलाएँ</span> tap <span class="btn">हिंदी में</span> or <span class="btn">English में</span>. WhatsApp opens the customer's chat with a polite ready message, for example:</p>
+      <p class="note hi" style="font-weight:400">"नमस्ते सुनीता देवी जी, डेमो गारमेंट्स में आपका ₹910 उधार बाकी है। सुविधा अनुसार जल्द भुगतान कर दें। धन्यवाद!"</p>
+      <p>Check it and press send. The customer needs a phone number; add one with <span class="hi">नाम/फ़ोन बदलें</span> at the bottom of the page.</p>
+      <h3>New customer and old notebook udhaar</h3>
+      <p><span class="hi">+ नया ग्राहक</span> → name → mobile number (optional) → if they already owe money, under <span class="hi">पुराना उधार (कॉपी से)</span> type the amount and pick the date it started → <span class="btn">सेव करें</span>. That date is used for "since when".</p>
+      <p class="small">Customers can also be added from the Sell screen while selling on udhaar.</p>
+    </div>
+    <figure><img src="img/17-new-customer.png" alt="New customer"><figcaption>New customer with old udhaar</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 11. STOCK ===================== -->
+<section class="chapter">
+  <h2>11. Stock — स्टॉक</h2>
+  <div class="row two">
+    <div>
+      <ul>
+        <li>Top: total pieces in the shop and how many sizes are low (<span class="hi">कम स्टॉक</span>).</li>
+        <li>The owner also sees <b>stock value at cost</b> (<span class="hi">स्टॉक की लागत</span>).</li>
+        <li>Items are grouped by category. Each size shows its price, pieces left and barcode code.</li>
+        <li><b>Yellow</b> sizes are at or below their minimum stock — time to reorder.</li>
+        <li><b>Tap any size</b> to print its label again.</li>
+        <li>A <b>minus</b> stock number means more were sold than were entered as received. Check the supplier bills for a missed entry.</li>
+      </ul>
+    </div>
+    <figure><img src="img/12-stock.png" alt="Stock staff"><figcaption>Stock (staff)</figcaption></figure>
+    <figure><img src="img/29-stock-owner.png" alt="Stock owner"><figcaption>Stock (owner sees value)</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 12. DAY CLOSE ===================== -->
+<section class="chapter">
+  <h2>12. Closing the day — दिन का हिसाब</h2>
+  <p>Do this every evening before going home. Owner or staff can do it.</p>
+  <div class="row two">
+    <div>
+      <ol class="steps">
+        <li><span class="hi">रिपोर्ट</span> tab → <span class="btn">आज का हिसाब बंद करें →</span>.</li>
+        <li>Read the day's numbers: bills, cash sales, UPI sales, sold on udhaar, udhaar collected (cash / UPI), discounts and returns.</li>
+        <li><b>Cash in the drawer this morning</b> (<span class="hi">सुबह गल्ले में नकद</span>) — filled from yesterday's close; correct it if needed.</li>
+        <li><b>Cash taken out today</b> (<span class="hi">दिन में नकद निकाला</span>) — expenses, tea, supplier paid in cash, cash taken home.</li>
+        <li>The app shows <b>what should be in the drawer</b> (<span class="hi">गल्ले में होना चाहिए</span>).</li>
+        <li><b>Count the drawer</b> and type it in <span class="hi">गिनकर कितना निकला</span>. It shows <span class="hi">मिल गया ✓</span>, or how much is <b>short</b> (<span class="hi">कम है</span>, red) or <b>extra</b> (<span class="hi">ज़्यादा है</span>).</li>
+        <li><b>Left in drawer for tomorrow</b> (<span class="hi">कल के लिए गल्ले में छोड़ा</span>) — becomes tomorrow's opening cash.</li>
+        <li>Add a note if something was short, then tap <span class="btn">हिसाब बंद करें</span>.</li>
+      </ol>
+    </div>
+    <figure><img src="img/19-close-top.png" alt="Day summary"><figcaption>The day's numbers</figcaption></figure>
+    <figure><img src="img/20-close-drawer.png" alt="Cash drawer"><figcaption>Counting the drawer</figcaption></figure>
+  </div>
+  <div class="formula">Should be in drawer = morning cash + cash sales + udhaar collected in cash − cash taken out<br>
+  Example: ₹2,000 + ₹0 + ₹0 − ₹300 = ₹1,700. Counted ₹1,650 → ₹50 short.</div>
+  <ul>
+    <li>Cash sales are already <b>net of cash refunds</b>. UPI money is not in the drawer, so it is not counted.</li>
+    <li>Closed the day too early? Open it again and save — it updates the same day (<span class="hi">हिसाब दोबारा सेव करें</span>).</li>
+    <li>Pick a past date at the top to see or redo an earlier day. Earlier days are listed at the bottom with their difference.</li>
+  </ul>
+</section>
+
+<!-- ===================== 13. REPORTS ===================== -->
+<section class="chapter">
+  <h2>13. Reports and CSV downloads (owner)</h2>
+  <div class="row two">
+    <div>
+      <h3>Choose the period</h3>
+      <p>Tap <span class="btn">आज</span> today, <span class="btn">कल</span> yesterday, <span class="btn">7 दिन</span>, <span class="btn">30 दिन</span>, <span class="btn">यह महीना</span> this month, <span class="btn">पिछला महीना</span> last month — or pick your own dates and tap <span class="btn">दिखाएँ</span>.</p>
+      <h3>Headline numbers</h3>
+      <ul>
+        <li><b>Net sales</b> (<span class="hi">कुल बिक्री</span>) — after discounts and returns.</li>
+        <li><b>Margin</b> (<span class="hi">मुनाफ़ा</span>) — net sales minus the cost of the pieces sold, and its % of sales.</li>
+        <li>Bills, average bill, discounts, returns.</li>
+      </ul>
+    </div>
+    <figure><img src="img/21-reports.png" alt="Reports"><figcaption>Period and headline numbers</figcaption></figure>
+    <figure><img src="img/22-reports-category.png" alt="By category"><figcaption>Sales by day and category</figcaption></figure>
+  </div>
+  <div class="row two">
+    <div>
+      <h3>Sections</h3>
+      <ul>
+        <li><b>Sales by day</b> (by week or month for long periods).</li>
+        <li><b>By category</b>: sales, pieces and margin % — shows which category earns most.</li>
+        <li><b>By size</b>: pieces sold per size — helps decide what sizes to buy.</li>
+        <li><b>Best sellers</b> (<span class="hi">सबसे ज़्यादा बिकने वाले</span>): top 10 items, with stock left.</li>
+        <li><b>Not selling</b> (<span class="hi">जो नहीं बिक रहे</span>): items in stock that did not sell in the period, with the last sale date. Candidates for a clearance offer.</li>
+        <li><b>Stock value</b> at cost and at selling price.</li>
+      </ul>
+      <p class="small">Bill discounts are shared over the items on that bill, so margins by category add up to the real money taken.</p>
+    </div>
+    <figure><img src="img/23-reports-slow.png" alt="Best and slow"><figcaption>Best sellers and not selling</figcaption></figure>
+    <figure><img src="img/24-reports-csv.png" alt="CSV"><figcaption>Downloads</figcaption></figure>
+  </div>
+  <h3>CSV downloads (open in Excel or Google Sheets)</h3>
+  <table>
+    <tr><th>Button</th><th>File contains</th></tr>
+    <tr><td class="hi">हर बिक्री</td><td>Every item sold: date, time, payment, customer, staff, barcode, item, category, size, pieces, price, discount, cost</td></tr>
+    <tr><td class="hi">रोज़ का हिसाब</td><td>One line per day: bills, sales, returns, discounts, net, cost, margin</td></tr>
+    <tr><td class="hi">कैटेगरी</td><td>Per category: pieces, net sales, cost, margin, margin %</td></tr>
+    <tr><td class="hi">सामान</td><td>Per item: sold, sales, stock now, last sold</td></tr>
+    <tr><td class="hi">खरीद के बिल</td><td>Supplier bills: date, supplier, bill no., total, paid, due</td></tr>
+    <tr><td class="hi">दिन बंद</td><td>Every day close: sales by mode, expected, counted, difference</td></tr>
+    <tr><td class="hi">स्टॉक (आज)</td><td>Every size now: stock, min, price, cost, value</td></tr>
+    <tr><td class="hi">उधार (आज)</td><td>Every customer: due, since when, last payment</td></tr>
+  </table>
+  <div class="tip">Download all eight once a week and keep them in a folder on the laptop or Google Drive. It is your own copy of the shop's records.</div>
+</section>
+
+<!-- ===================== 14. SETTINGS ===================== -->
+<section class="chapter">
+  <h2>14. Settings (owner): prices, markup, staff</h2>
+  <div class="row">
+    <div>
+      <p>Tap <span class="hi">सेटिंग</span> under your name in the header. Two pages:</p>
+      <h3>Shop and prices — दुकान और दाम</h3>
+      <table>
+        <tr><th>Rounding option</th><th>Example</th></tr>
+        <tr><td class="hi">₹10 तक ऊपर</td><td>453 → 460 (your shop)</td></tr>
+        <tr><td class="hi">49 या 99 पर</td><td>420 → 449, 450 → 499</td></tr>
+        <tr><td class="hi">99 पर</td><td>420 → 499</td></tr>
+        <tr><td class="hi">9 पर</td><td>450 → 459</td></tr>
+        <tr><td class="hi">गोल न करें</td><td>exact, next whole rupee</td></tr>
+      </table>
+      <p>Prices are always rounded <b>up</b>, so your profit is never less than the markup you set. Changing the rule or markup only affects <b>new</b> items and new sizes; prices already on labels stay the same.</p>
+      <p><b>Markup %</b> and <b>min stock</b> are set per category. Tap <span class="btn">सेव करें</span>.</p>
+    </div>
+    <figure><img src="img/26-settings.png" alt="Settings"><figcaption>Settings</figcaption></figure>
+  </div>
+  <div class="row">
+    <div>
+      <h3>Staff — स्टाफ</h3>
+      <ul>
+        <li><b>Add:</b> name, 10-digit mobile number, a 6-digit PIN → <span class="btn">सेव करें</span>. Each phone number can have only one account.</li>
+        <li><b>Switch off</b> (<span class="btn">बंद करें</span>) when someone leaves — they can no longer log in. Their past sales stay in the records. <span class="btn">चालू करें</span> switches them back on.</li>
+        <li>Choose PINs that are not easy to guess (not 123456, not a birthday). Never tell staff the owner's PIN.</li>
+      </ul>
+    </div>
+    <figure><img src="img/28-settings-staff.png" alt="Staff"><figcaption>Staff</figcaption></figure>
+  </div>
+</section>
+
+<!-- ===================== 15. SAFETY ===================== -->
+<section class="chapter">
+  <h2>15. How the app keeps your money safe</h2>
+  <ul>
+    <li><b>Fixed prices.</b> The price charged always comes from the shop's records, not from the phone. Staff can't change a price or give a discount without the owner's PIN.</li>
+    <li><b>Cost prices are secret.</b> Staff can type a cost while entering a bill but can never see costs, bill totals, supplier dues, margins or reports.</li>
+    <li><b>Nothing can be deleted.</b> Not by staff, not by the owner. Mistakes are fixed with a return or a new entry, so the history is always complete.</li>
+    <li><b>Udhaar balances can't be typed in.</b> They only change through sales, payments, returns and the opening balance — every change is in the customer's account history.</li>
+    <li><b>Every discount, price change and day close is recorded</b> with who did it and when.</li>
+    <li><b>Separate shops.</b> If other shops use the app later, no shop can see another's data.</li>
+    <li><b>Owner PIN lock.</b> 5 wrong owner PINs in 10 minutes block discounts for 10 minutes.</li>
+  </ul>
+  <div class="warn">Keep your own copy: download the CSV files weekly (chapter 13). Automatic daily backups of the database are not switched on yet.</div>
+</section>
+
+<!-- ===================== 16. FAQ ===================== -->
+<section class="chapter">
+  <h2>16. Problems and answers</h2>
+  <table>
+    <tr><th style="width:38%">Problem</th><th>What to do</th></tr>
+    <tr><td>Camera doesn't open / black screen</td><td>Allow camera: Chrome ⋮ → Settings → Site settings → Camera → allow for the app. Close other apps using the camera. Use the scanner gun or type the code meanwhile.</td></tr>
+    <tr><td>Camera doesn't read the barcode</td><td>More light, hold the phone 10–15 cm away and steady, barcode flat inside the white box. Creased or faded label? Type the code and reprint the label from Stock.</td></tr>
+    <tr><td>"यह कोड नहीं मिला" (code not found)</td><td>The code was typed wrong, or the item's bill was never entered. Enter the bill (Receive), or use "Item without tag" for now.</td></tr>
+    <tr><td>Scanner gun does nothing</td><td>Make sure no text box is selected (tap an empty area), the gun is charged and paired. Test it in a notes app — it should type the code and press Enter.</td></tr>
+    <tr><td>"⚠ stock went below zero" after a sale</td><td>Not an error — the sale is saved. More pieces were sold than were entered. Check for a missed supplier bill and enter it.</td></tr>
+    <tr><td>"मालिक का PIN गलत है" / discounts locked</td><td>Wrong owner PIN. After 5 wrong tries wait 10 minutes. The owner can also give the discount from their own phone.</td></tr>
+    <tr><td>Wrong sale (wrong item or amount)</td><td>Sales can't be deleted. Turn on Return, scan the wrong item, scan the right one, and settle the difference.</td></tr>
+    <tr><td>Wrong supplier bill entered</td><td>Bills can't be edited or deleted yet. Write down the details and ask the person who manages the app to correct the stock.</td></tr>
+    <tr><td>Staff forgot their PIN / owner forgot PIN</td><td>There is no "forgot PIN" button yet. Ask the person who manages the app to set a new PIN.</td></tr>
+    <tr><td>WhatsApp opens without a contact</td><td>The customer has no phone number. Add it with "नाम/फ़ोन बदलें" on their udhaar page.</td></tr>
+    <tr><td>Print is too big / small or labels misaligned</td><td>In the print window set Scale 100% (Actual size) and Margins None. For thermal, set paper size 50×25 mm in the printer settings.</td></tr>
+    <tr><td>Something shows "कुछ गड़बड़ हुई" or won't save</td><td>Check the internet, then try again. The app needs internet for every save.</td></tr>
+    <tr><td>App looks old after an update</td><td>Pull down to refresh, or close and reopen the app.</td></tr>
+  </table>
+</section>
+
+<!-- ===================== 17. GLOSSARY ===================== -->
+<section class="chapter">
+  <h2>17. Hindi ↔ English button list</h2>
+  <table>
+    <tr><th>हिंदी</th><th>English</th><th>हिंदी</th><th>English</th></tr>
+    <tr><td class="hi">अंदर जाएँ</td><td>Log in</td><td class="hi">बाहर निकलें</td><td>Log out</td></tr>
+    <tr><td class="hi">बेचें</td><td>Sell</td><td class="hi">स्टॉक</td><td>Stock</td></tr>
+    <tr><td class="hi">माल आया</td><td>Receive</td><td class="hi">उधार</td><td>Udhaar (credit)</td></tr>
+    <tr><td class="hi">रिपोर्ट</td><td>Reports</td><td class="hi">सेटिंग</td><td>Settings</td></tr>
+    <tr><td class="hi">कैमरे से स्कैन</td><td>Scan with camera</td><td class="hi">जोड़ें</td><td>Add</td></tr>
+    <tr><td class="hi">↩ वापसी</td><td>Return</td><td class="hi">बिना टैग वाला सामान</td><td>Item without tag</td></tr>
+    <tr><td class="hi">छूट दें / छूट हटाएँ</td><td>Give / remove discount</td><td class="hi">मालिक का PIN</td><td>Owner's PIN</td></tr>
+    <tr><td class="hi">नकद / UPI / उधार</td><td>Cash / UPI / Udhaar</td><td class="hi">नकद वापस / UPI वापस</td><td>Cash back / UPI back</td></tr>
+    <tr><td class="hi">उधार में जमा</td><td>Credit to udhaar</td><td class="hi">नई बिक्री</td><td>New sale</td></tr>
+    <tr><td class="hi">WhatsApp पर पर्ची भेजें</td><td>Send slip on WhatsApp</td><td class="hi">आज की बिक्री</td><td>Today's sales</td></tr>
+    <tr><td class="hi">नया बिल डालें</td><td>Enter new bill</td><td class="hi">सामान जोड़ें</td><td>Add item</td></tr>
+    <tr><td class="hi">खरीद का दाम</td><td>Cost price</td><td class="hi">बेचने का दाम</td><td>Selling price</td></tr>
+    <tr><td class="hi">बिल में जोड़ें</td><td>Add to bill</td><td class="hi">बिल सेव करें और लेबल छापें</td><td>Save bill and print labels</td></tr>
+    <tr><td class="hi">बाद में (खाते में)</td><td>Pay later</td><td class="hi">नकद पूरा दिया / कुछ दिया</td><td>Paid in full / Part paid</td></tr>
+    <tr><td class="hi">लेबल छापें / छापें</td><td>Print labels / Print</td><td class="hi">कॉपी</td><td>Copies</td></tr>
+    <tr><td class="hi">पैसे मिले</td><td>Money received</td><td class="hi">याद दिलाएँ</td><td>Remind</td></tr>
+    <tr><td class="hi">नया ग्राहक</td><td>New customer</td><td class="hi">पुराना उधार</td><td>Old udhaar (notebook)</td></tr>
+    <tr><td class="hi">सबसे ज़्यादा / सबसे पुराना</td><td>Most owed / Oldest</td><td class="hi">सब चुकता</td><td>All paid</td></tr>
+    <tr><td class="hi">आज का हिसाब बंद करें</td><td>Close today's accounts</td><td class="hi">गल्ला</td><td>Cash drawer</td></tr>
+    <tr><td class="hi">कम है / ज़्यादा है</td><td>Short / Extra</td><td class="hi">मिल गया ✓</td><td>Matches</td></tr>
+    <tr><td class="hi">कुल बिक्री / मुनाफ़ा</td><td>Net sales / Margin</td><td class="hi">CSV डाउनलोड करें</td><td>Download CSV</td></tr>
+    <tr><td class="hi">दुकान और दाम</td><td>Shop and prices</td><td class="hi">मुनाफ़ा % / कम से कम स्टॉक</td><td>Markup % / Min stock</td></tr>
+    <tr><td class="hi">बंद करें / चालू करें</td><td>Switch off / on</td><td class="hi">सेव करें / रद्द करें</td><td>Save / Cancel</td></tr>
+  </table>
+</section>
+
+</div>
+</body>
+</html>
