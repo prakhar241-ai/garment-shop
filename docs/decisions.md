@@ -89,6 +89,18 @@ Short record of choices made and why. Newest at the bottom.
 - dead stock = in stock, not sold for N days (30/60/90) and nothing received in that time either.
 Orders go to the supplier on WhatsApp (their number if known) and to CSV (owner). Supplier phones are stored as 10 digits like customer phones.
 
+## 2026-10-26 — Phase 6 (pricing discipline), price changes, keep-alive
+
+**Changing a price without a bill** (`set_price()`, owner only): one size or all sizes of an item, reason correction / reduced / increased. Every change goes to `price_changes`; the item page shows the history and links straight to printing new labels.
+
+**Offers** (`offers` table, owner creates/stops; everyone reads): percent off or one fixed price, a date range (India dates), all or chosen categories. `make_sale()` applies the best running offer to each tagged line — the lowest resulting price — so it can't be skipped or faked on a phone. Percent offers round DOWN to the whole rupee; a fixed price only applies if it is lower than the tag. Each sale line stores `regular_price` and `offer_id`. Untagged quick-sale lines (typed price) get no offer. Returns use today's price including any running offer. An owner's bill discount can still come on top. The Sell screen shows today's offers and each line's offer, computed by `src/lib/offers.ts`, which mirrors `offer_price()` (tested to agree).
+
+**Discount report** (`report_discounts()`, owner only): by staff member and by day — bill discounts (and how many needed the owner's PIN) and offer discounts. Also in CSV, and offer discounts appear in the day close.
+
+**Keep-alive.** On 2026-10-26 the free Supabase project had paused after ~8 days without use and the app was down until it was restored. Vercel Cron now calls `/api/keepalive` daily at 08:00 IST (one tiny query), protected by `CRON_SECRET`.
+
+**Next.js 16.4.0 → 16.4.3** for critical published advisories (remote code execution in image optimisation and `use cache`, Server Actions DoS).
+
 **Libraries added and why**
 - `next-intl` — Hindi/English text (required by the brief).
 - `@supabase/supabase-js`, `@supabase/ssr` — database and login, with sessions kept in cookies for server rendering.

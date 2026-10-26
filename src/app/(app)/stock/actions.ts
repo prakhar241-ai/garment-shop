@@ -35,3 +35,30 @@ export async function setMinStock(variantId: string, min: number): Promise<{ ok:
   revalidatePath(`/stock/${variantId}`);
   return { ok: !error };
 }
+
+export type PriceError = "no_change" | "bad_price" | "owner_only" | "generic";
+
+/** Owner changes the selling price of one size, or all sizes of the item,
+ *  without a new bill. set_price() records every change in price_changes. */
+export async function changePrice(input: {
+  variantId: string;
+  allSizes: boolean;
+  price: number;
+  reason: "correction" | "markdown" | "increase";
+}): Promise<{ error: PriceError } | { changed: string[] }> {
+  const { supabase } = await requireOwner();
+  const { data, error } = await supabase.rpc("set_price", {
+    p_variant: input.variantId,
+    p_all_sizes: input.allSizes,
+    p_price: input.price,
+    p_reason: input.reason,
+  });
+  if (error) {
+    const known: PriceError[] = ["no_change", "bad_price", "owner_only"];
+    return { error: known.find((k) => error.message.includes(k)) ?? "generic" };
+  }
+  revalidatePath(`/stock/${input.variantId}`);
+  revalidatePath("/stock");
+  revalidatePath("/sell");
+  return { changed: (data as { changed: string[] }).changed };
+}

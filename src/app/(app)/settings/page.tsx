@@ -7,6 +7,7 @@ export default async function SettingsPage() {
   const t = await getTranslations("settings");
   const links = [
     { href: "/settings/shop", label: t("shop") },
+    { href: "/settings/offers", label: t("offers") },
     { href: "/settings/staff", label: t("staff") },
   ];
   return (

@@ -14,6 +14,7 @@ export type DaySummary = {
   net_sales: number;
   discounts: number;
   discount_bills: number;
+  offer_discounts?: number;
   returns: number;
   udhaar_given: number;
   udhaar_collected_cash: number;
@@ -88,6 +89,7 @@ export function CloseForm({
             label={t("discounts")}
             value={s.discounts ? `${formatPaise(s.discounts)} (${t("discountBills", { count: s.discount_bills })})` : formatPaise(0)}
           />
+          <Row label={t("offerDiscounts")} value={formatPaise(s.offer_discounts ?? 0)} />
           <Row label={t("returns")} value={formatPaise(s.returns)} />
         </dl>
       </section>

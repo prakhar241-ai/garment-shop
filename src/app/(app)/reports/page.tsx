@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { formatDate, formatPaise } from "@/lib/money";
 import { localName } from "@/lib/names";
 import { buckets, resolvePeriod, type PeriodKey } from "@/lib/period";
@@ -11,6 +12,7 @@ type CatRow = { category_id: string; name_hi: string; name_en: string; qty: numb
 type SizeRow = { size: string; qty: number; net: number };
 type ProdRow = { product_id: string; name: string; name_hi: string | null; name_en: string | null; sold: number; net: number; stock: number; last_sold: string | null };
 type StockRow = { stock: number; cost_value: number; sale_value: number };
+type DiscRow = { day: string; staff_id: string | null; staff: string | null; bills: number; bills_with_discount: number; bill_discount: number; offer_discount: number; approved_by_pin: number };
 
 const PERIODS: PeriodKey[] = ["today", "yesterday", "7d", "30d", "month", "lastMonth"];
 const day = (d: string) => formatDate(`${d}T12:00:00+05:30`);
@@ -42,12 +44,13 @@ export default async function ReportsPage({ searchParams }: PageProps<"/reports"
   const period = resolvePeriod(str(sp.p), str(sp.from), str(sp.to));
   const range = { p_from: period.from, p_to: period.to };
 
-  const [sales, cats, sizes, prods, stock] = await Promise.all([
+  const [sales, cats, sizes, prods, stock, disc] = await Promise.all([
     supabase.rpc("report_sales", { ...range, p_grain: period.grain }),
     supabase.rpc("report_categories", range),
     supabase.rpc("report_sizes", range),
     supabase.rpc("report_products", range),
     supabase.rpc("report_stock"),
+    supabase.rpc("report_discounts", range),
   ]);
 
   const rows = (sales.data ?? []) as SalesRow[];
@@ -189,6 +192,10 @@ export default async function ReportsPage({ searchParams }: PageProps<"/reports"
         </>
       )}
 
+      <Section title={t("discountReport.title")} hint={t("discountReport.hint")}>
+        <Discounts rows={(disc.data ?? []) as DiscRow[]} />
+      </Section>
+
       <Section title={t("reports.slow")} hint={t("reports.slowHint")}>
         <ul className="flex flex-col">
           {slow.map((p) => (
@@ -215,7 +222,7 @@ export default async function ReportsPage({ searchParams }: PageProps<"/reports"
 
       <Section title={t("reports.export")} hint={t("reports.exportHint")}>
         <div className="grid grid-cols-2 gap-2">
-          {(["sales", "daily", "categories", "products", "purchases", "closes", "stock", "udhaar"] as const).map((k) => (
+          {(["sales", "daily", "categories", "products", "purchases", "closes", "discounts", "stock", "udhaar"] as const).map((k) => (
             <a
               key={k}
               href={`/api/export/${k}?${query}`}
@@ -273,5 +280,75 @@ function Bars({ items }: { items: { key: string; label: string; value: number; t
         </li>
       ))}
     </ul>
+  );
+}
+
+/** Discounts by staff member, then by day. Bill discounts need the owner's
+ *  PIN on a staff phone; offer discounts are the running offers. */
+function Discounts({ rows }: { rows: DiscRow[] }) {
+  const t = useTranslations("discountReport");
+  if (rows.every((r) => !r.bill_discount && !r.offer_discount)) return <p className="text-muted">{t("none")}</p>;
+
+  const byStaff = new Map<string, { name: string; bills: number; withDisc: number; bill: number; offer: number; pin: number }>();
+  const byDay = new Map<string, { bill: number; offer: number }>();
+  for (const r of rows) {
+    const k = r.staff_id ?? "-";
+    const s = byStaff.get(k) ?? { name: r.staff ?? "—", bills: 0, withDisc: 0, bill: 0, offer: 0, pin: 0 };
+    s.bills += r.bills;
+    s.withDisc += r.bills_with_discount;
+    s.bill += r.bill_discount;
+    s.offer += r.offer_discount;
+    s.pin += r.approved_by_pin;
+    byStaff.set(k, s);
+    const d = byDay.get(r.day) ?? { bill: 0, offer: 0 };
+    d.bill += r.bill_discount;
+    d.offer += r.offer_discount;
+    byDay.set(r.day, d);
+  }
+  const staff = [...byStaff.values()].sort((a, b) => b.bill + b.offer - (a.bill + a.offer));
+  const days = [...byDay.entries()].filter(([, d]) => d.bill || d.offer).sort(([a], [b]) => b.localeCompare(a));
+
+  return (
+    <>
+      <table className="w-full text-left text-sm">
+        <thead className="text-muted">
+          <tr>
+            <th className="py-1 font-semibold">{t("staff")}</th>
+            <th className="py-1 text-right font-semibold">{t("billDiscount")}</th>
+            <th className="py-1 text-right font-semibold">{t("offerDiscount")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {staff.map((s) => (
+            <tr key={s.name} className="border-t border-border">
+              <td className="py-2">
+                <span className="block text-base font-semibold">{s.name}</span>
+                <span className="text-muted">
+                  {s.withDisc}/{s.bills} {t("bills")}
+                  {s.pin > 0 && ` · ${t("withPin", { count: s.pin })}`}
+                </span>
+              </td>
+              <td className="py-2 text-right text-base font-semibold">{formatPaise(s.bill)}</td>
+              <td className="py-2 text-right text-base">{formatPaise(s.offer)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {days.length > 0 && (
+        <>
+          <h3 className="mt-2 font-semibold">{t("byDay")}</h3>
+          <ul className="flex flex-col">
+            {days.map(([d, v]) => (
+              <li key={d} className="flex justify-between gap-2 border-t border-border py-1 text-sm">
+                <span>{formatDate(`${d}T12:00:00+05:30`)}</span>
+                <span>
+                  <b>{formatPaise(v.bill)}</b> · {formatPaise(v.offer)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
   );
 }

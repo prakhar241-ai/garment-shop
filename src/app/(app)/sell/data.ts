@@ -8,7 +8,7 @@ export type Sellable = {
   size: string;
   selling_price: number;
   stock_qty: number;
-  product: { name: string; name_hi: string | null; name_en: string | null };
+  product: { name: string; name_hi: string | null; name_en: string | null; category_id: string };
 };
 
 const PAGE = 1000; // Supabase returns at most 1000 rows per request
@@ -20,7 +20,7 @@ export async function fetchSellable(supabase: SupabaseClient, barcode?: string):
   for (let from = 0; ; from += PAGE) {
     let q = supabase
       .from("variants")
-      .select("id, barcode, size, selling_price, stock_qty, product:products!inner(name, name_hi, name_en, deleted_at)")
+      .select("id, barcode, size, selling_price, stock_qty, product:products!inner(name, name_hi, name_en, category_id, deleted_at)")
       .is("deleted_at", null)
       .is("product.deleted_at", null)
       .order("barcode")

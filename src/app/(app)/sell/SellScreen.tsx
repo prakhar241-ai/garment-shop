@@ -4,12 +4,22 @@ import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from
 import { useTranslations } from "next-intl";
 import { CameraScanner } from "@/components/CameraScanner";
 import { addTagged, cartTotal, percentDiscount, stepQty, stockAfter, subtotal, type CartLine } from "@/lib/cart";
-import { formatPaise, rupeesToPaise } from "@/lib/money";
+import { formatDate, formatPaise, rupeesToPaise } from "@/lib/money";
 import { sizeLabel, sizesFor } from "@/lib/sizes";
 import { slipText, whatsappLink } from "@/lib/slip";
+import { bestOffer, type Offer } from "@/lib/offers";
 import { lookupBarcode, makeSale, searchCustomers, type CustomerHit, type SaleError, type SalePayload } from "./actions";
 
-export type ScanItem = { variantId: string; barcode: string; name: string; size: string; price: number; stock: number };
+/** A tagged item as the Sell screen knows it. `price` is the tag price; offers are applied when it is added. */
+export type ScanItem = {
+  variantId: string;
+  barcode: string;
+  name: string;
+  size: string;
+  price: number;
+  stock: number;
+  categoryId: string;
+};
 export type QuickCategory = { id: string; name: string; sizeType: string };
 
 type Mode = "cash" | "upi" | "udhaar";
@@ -28,11 +38,15 @@ export function SellScreen({
   categories,
   isOwner,
   shopName,
+  offers,
+  today,
 }: {
   items: ScanItem[];
   categories: QuickCategory[];
   isOwner: boolean;
   shopName: string;
+  offers: Offer[];
+  today: string;
 }) {
   const t = useTranslations();
   const [lines, setLines] = useState<CartLine[]>([]);
@@ -71,10 +85,20 @@ export function SellScreen({
         setNotice(t("sell.notFound", { code: c }));
         return;
       }
-      const found = item;
+      // Apply today's best offer, the same way make_sale() will.
+      const best = bestOffer(offers, item.categoryId, item.price, today);
+      const found = {
+        variantId: item.variantId,
+        barcode: item.barcode,
+        name: item.name,
+        size: item.size,
+        stock: item.stock,
+        price: best ? best.price : item.price,
+        ...(best ? { regular: item.price, offer: best.offer.name } : {}),
+      };
       setLines((ls) => addTagged(ls, found, returning));
     },
-    [catalog, returning, t],
+    [catalog, returning, t, offers, today],
   );
 
   // USB / Bluetooth scanners type the code fast and press Enter. Catch that
@@ -219,6 +243,23 @@ export function SellScreen({
         </button>
       </div>
 
+      {offers.length > 0 && (
+        <section aria-label={t("offers.banner")} className="rounded-xl border-2 border-brand bg-green-50 px-3 py-2">
+          <p className="font-bold text-brand">🏷 {t("offers.banner")}</p>
+          <ul className="text-sm">
+            {offers.map((o) => (
+              <li key={o.id}>
+                {t("offers.bannerLine", {
+                  name: o.name,
+                  what: o.kind === "percent" ? t("offers.percentOff", { value: o.value }) : t("offers.flat", { price: formatPaise(o.value) }),
+                  to: formatDate(`${o.ends_on}T12:00:00+05:30`).slice(0, 5),
+                })}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {returning && <p className="rounded-xl bg-red-50 p-2 text-center font-semibold text-danger">{t("sell.returnOn")}</p>}
 
       {camera && <CameraScanner onCode={addCode} onClose={() => setCamera(false)} />}
@@ -282,9 +323,21 @@ export function SellScreen({
                     <span className="w-10 text-center text-xl font-bold">{Math.abs(l.qty)}</span>
                     <QtyButton label="+" onClick={() => setLines(stepQty(lines, l.key, 1))} />
                   </div>
-                  <span className="text-sm text-muted">× {formatPaise(l.price)}</span>
+                  <span className="text-sm text-muted">
+                    {l.kind === "tagged" && l.regular !== undefined && (
+                      <s className="mr-1" aria-label={formatPaise(l.regular)}>
+                        {formatPaise(l.regular)}
+                      </s>
+                    )}
+                    × {formatPaise(l.price)}
+                  </span>
                 </div>
-                {short && <p className="mt-1 text-sm font-semibold text-warn-ink">⚠ {t("sell.stockWarn")}</p>}
+                {l.kind === "tagged" && l.offer && (
+                  <p className="mt-1 inline-block rounded-full bg-brand px-2 text-sm font-semibold text-brand-ink">
+                    🏷 {t("offers.applied", { name: l.offer })}
+                  </p>
+                )}
+                {short &&<p className="mt-1 text-sm font-semibold text-warn-ink">⚠ {t("sell.stockWarn")}</p>}
               </li>
             );
           })}

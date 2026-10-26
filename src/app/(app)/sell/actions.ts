@@ -64,6 +64,7 @@ export async function lookupBarcode(code: string): Promise<ScanItem | null> {
     size: sizeLabel(v.size, t),
     price: v.selling_price,
     stock: v.stock_qty,
+    categoryId: v.product.category_id,
   };
 }
 

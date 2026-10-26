@@ -38,5 +38,5 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   // Skip static files, images, the manifest and icons.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest|icons/|.*\\.(?:svg|png|jpg|ico)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|manifest.webmanifest|icons/|api/keepalive|.*\\.(?:svg|png|jpg|ico)$).*)"],
 };

@@ -6,6 +6,7 @@ import { localName } from "@/lib/names";
 import { requireSession } from "@/lib/session";
 import { sizeLabel } from "@/lib/sizes";
 import { AdjustForm, MinStockForm } from "./ItemForms";
+import { PriceForm } from "./PriceForm";
 
 type Move = { key: string; at: string; qty: number; label: string; note?: string | null };
 
@@ -18,11 +19,12 @@ export default async function StockItemPage({ params }: PageProps<"/stock/[id]">
 
   const { data: v } = await supabase
     .from("variants")
-    .select("id, barcode, size, selling_price, stock_qty, min_stock, product:products(name, name_hi, name_en)")
+    .select("id, product_id, barcode, size, selling_price, stock_qty, min_stock, product:products(name, name_hi, name_en)")
     .eq("id", id)
     .is("deleted_at", null)
     .maybeSingle<{
       id: string;
+      product_id: string;
       barcode: string;
       size: string;
       selling_price: number;
@@ -31,6 +33,18 @@ export default async function StockItemPage({ params }: PageProps<"/stock/[id]">
       product: { name: string; name_hi: string | null; name_en: string | null };
     }>();
   if (!v) notFound();
+
+  const [{ data: prices }, { data: siblings }, { data: people }] = await Promise.all([
+    supabase
+      .from("price_changes")
+      .select("id, old_price, new_price, reason, created_at, created_by")
+      .eq("variant_id", id)
+      .order("created_at", { ascending: false })
+      .limit(20),
+    supabase.from("variants").select("id").eq("product_id", v.product_id).is("deleted_at", null),
+    supabase.from("profiles").select("id, name, name_hi, name_en"),
+  ]);
+  const who = new Map((people ?? []).map((p) => [p.id, localName(p, locale)]));
 
   const [{ data: buys }, { data: sales }, { data: adjustments }, cost] = await Promise.all([
     supabase
@@ -101,8 +115,32 @@ export default async function StockItemPage({ params }: PageProps<"/stock/[id]">
         {t("item.printLabel")}
       </Link>
 
+      {isOwner && <PriceForm variantId={v.id} price={v.selling_price} sizes={siblings?.length ?? 1} />}
       {isOwner && <AdjustForm variantId={v.id} stock={v.stock_qty} />}
       {isOwner && <MinStockForm variantId={v.id} min={v.min_stock} />}
+
+      <section className="flex flex-col gap-2">
+        <h2 className="text-xl font-bold">{t("price.history")}</h2>
+        {(prices ?? []).length === 0 && <p className="text-muted">{t("price.noHistory")}</p>}
+        <ul className="flex flex-col gap-1">
+          {(prices ?? []).map((p) => (
+            <li key={p.id} className="flex items-start justify-between gap-2 rounded-lg border border-border bg-surface px-3 py-2">
+              <span className="min-w-0">
+                <span className="block font-semibold">{t(`price.reasons.${p.reason}`)}</span>
+                <span className="text-sm text-muted">
+                  {formatDate(p.created_at)}
+                  {p.created_by && who.get(p.created_by) ? ` · ${who.get(p.created_by)}` : ""}
+                </span>
+              </span>
+              <span className="shrink-0 font-semibold">
+                {p.reason === "initial"
+                  ? formatPaise(p.new_price)
+                  : t("price.line", { old: formatPaise(p.old_price), new: formatPaise(p.new_price) })}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="flex flex-col gap-2">
         <h2 className="text-xl font-bold">{t("item.history")}</h2>

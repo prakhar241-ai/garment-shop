@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { localName } from "@/lib/names";
+import type { Offer } from "@/lib/offers";
+import { istToday } from "@/lib/period";
 import { requireSession } from "@/lib/session";
 import { sizeLabel } from "@/lib/sizes";
 import { fetchSellable } from "./data";
@@ -11,9 +13,18 @@ export default async function SellPage() {
   const t = await getTranslations();
   const locale = await getLocale();
 
-  const [variants, { data: categories }] = await Promise.all([
+  const today = istToday();
+  const [variants, { data: categories }, { data: offers }] = await Promise.all([
     fetchSellable(supabase),
     supabase.from("categories").select("id, name_hi, name_en, size_type").is("deleted_at", null).order("sort_order"),
+    // Offers running today; the database applies the same ones when the sale is saved.
+    supabase
+      .from("offers")
+      .select("id, name, kind, value, starts_on, ends_on, category_ids, active")
+      .eq("active", true)
+      .is("deleted_at", null)
+      .lte("starts_on", today)
+      .gte("ends_on", today),
   ]);
 
   // Names and sizes are resolved here, in the user's language, so scanning
@@ -25,6 +36,7 @@ export default async function SellPage() {
     size: sizeLabel(v.size, t),
     price: v.selling_price,
     stock: v.stock_qty,
+    categoryId: v.product.category_id,
   }));
   const quick: QuickCategory[] = (categories ?? []).map((c) => ({
     id: c.id,
@@ -45,6 +57,8 @@ export default async function SellPage() {
         categories={quick}
         isOwner={profile.role === "owner"}
         shopName={localName(shop, locale)}
+        offers={((offers ?? []) as Offer[]).map((o) => ({ ...o, value: Number(o.value) }))}
+        today={today}
       />
     </div>
   );

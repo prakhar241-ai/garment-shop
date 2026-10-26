@@ -4,7 +4,19 @@ import type { Paise } from "./money";
 // sale is saved; this is only for showing totals while scanning.
 
 export type CartLine =
-  | { kind: "tagged"; key: string; variantId: string; barcode: string; name: string; size: string; price: Paise; qty: number; stock: number }
+  | {
+      kind: "tagged";
+      key: string;
+      variantId: string;
+      barcode: string;
+      name: string;
+      size: string;
+      price: Paise; // what the customer pays (offer price if an offer runs)
+      regular?: Paise; // the tag price, when an offer lowered it
+      offer?: string; // name of the offer applied
+      qty: number;
+      stock: number;
+    }
   | { kind: "quick"; key: string; categoryId: string; name: string; size: string; price: Paise; qty: number };
 
 /** qty < 0 means the customer is returning that item. */

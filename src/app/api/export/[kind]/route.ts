@@ -7,7 +7,7 @@ import { buildOrders, type ReorderRow } from "@/lib/reorder";
 import { sizeLabel } from "@/lib/sizes";
 import { createClient } from "@/lib/supabase/server";
 
-const KINDS = ["sales", "daily", "categories", "products", "stock", "udhaar", "purchases", "closes", "reorder"] as const;
+const KINDS = ["sales", "daily", "categories", "products", "stock", "udhaar", "purchases", "closes", "reorder", "discounts"] as const;
 type Kind = (typeof KINDS)[number];
 
 /**
@@ -174,6 +174,19 @@ export async function GET(req: Request, { params }: RouteContext<"/api/export/[k
           ]),
         ),
       );
+      break;
+    }
+    case "discounts": {
+      const { data } = await supabase.rpc("report_discounts", range);
+      headers = [t("date"), t("staff"), t("bills"), t("billDiscount2"), t("withPin"), t("offerDiscount")];
+      rows = (data ?? []).map((r: Record<string, never>) => [
+        formatDate(`${r.day}T12:00:00+05:30`),
+        r.staff,
+        r.bills,
+        rupees(r.bill_discount),
+        r.approved_by_pin,
+        rupees(r.offer_discount),
+      ]);
       break;
     }
     case "closes": {

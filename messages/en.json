@@ -308,7 +308,8 @@
       "stock": "Stock (now)",
       "udhaar": "Udhaar (now)",
       "purchases": "Purchase bills",
-      "closes": "Day closes"
+      "closes": "Day closes",
+      "discounts": "Discounts"
     },
     "noData": "No sales in this period.",
     "tableView": "Table"
@@ -354,7 +355,8 @@
     "markup": "Markup %",
     "minStock": "Min stock",
     "example": "₹100 cost → {price}",
-    "saved": "Saved"
+    "saved": "Saved",
+    "offers": "Offers"
   },
   "reminder": {
     "text": "Hello {name}, a balance of {amount} is due at {shop}. Kindly clear it at your convenience. Thank you!"
@@ -411,7 +413,10 @@
     "udhaarCash": "Udhaar collected cash",
     "udhaarUpi": "Udhaar collected UPI",
     "period": "Period",
-    "orderQty": "Order qty"
+    "orderQty": "Order qty",
+    "offerDiscount": "Offer discount",
+    "billDiscount2": "Bill discount",
+    "withPin": "With PIN"
   },
   "close": {
     "title": "Day close",
@@ -447,7 +452,8 @@
       "bad_amount": "Check the amounts. Left in drawer can't be more than counted.",
       "bad_date": "You can't pick a future date.",
       "generic": "Not saved. Please try again."
-    }
+    },
+    "offerDiscounts": "Offer discounts"
   },
   "admin": {
     "title": "Master panel",
@@ -597,5 +603,86 @@
     "neverSold": "Never sold",
     "noDead": "No such items.",
     "csv": "⬇ Order CSV"
+  },
+  "offers": {
+    "title": "Offers",
+    "intro": "Festival or sale offers. Running offers apply automatically when selling and are shown to everyone on screen.",
+    "new": "+ New offer",
+    "none": "No offers yet.",
+    "name": "Offer name",
+    "namePlaceholder": "e.g. Diwali sale",
+    "kind": "Type of offer",
+    "percent": "% off",
+    "fixed": "One price (e.g. all at ₹299)",
+    "percentValue": "How many % off",
+    "fixedValue": "Offer price",
+    "from": "From",
+    "to": "Until",
+    "categories": "On which categories",
+    "all": "All",
+    "save": "Start offer",
+    "saved": "Offer saved",
+    "stop": "Stop offer",
+    "confirmStop": "Stop {name}? It will no longer apply to sales.",
+    "status": {
+      "running": "Running",
+      "upcoming": "Upcoming",
+      "ended": "Ended",
+      "stopped": "Stopped"
+    },
+    "dates": "{from} to {to}",
+    "onAll": "All categories",
+    "example": "Example: a ₹649 item → {price}",
+    "err": {
+      "name": "Type the offer name.",
+      "value": "Use 1–99% off, or a valid price.",
+      "dates": "Check the dates (until must be after from).",
+      "generic": "Not saved. Please try again."
+    },
+    "banner": "Today's offers",
+    "bannerLine": "{name}: {what} · until {to}",
+    "percentOff": "{value}% off",
+    "flat": "all at {price}",
+    "applied": "Offer: {name}"
+  },
+  "price": {
+    "change": "Change price",
+    "title": "Change selling price",
+    "newPrice": "New price",
+    "scope": "Apply to",
+    "thisSize": "This size only",
+    "allSizes": "All sizes of this item",
+    "reason": "Reason",
+    "reasons": {
+      "correction": "Correction",
+      "markdown": "Price reduced",
+      "increase": "Price increased",
+      "initial": "First price",
+      "festival_offer": "Festival offer"
+    },
+    "save": "Save price",
+    "saved": "New price set. Replace the old labels:",
+    "printNew": "Print new labels",
+    "history": "Price history",
+    "noHistory": "No changes yet.",
+    "line": "{old} → {new}",
+    "err": {
+      "no_change": "The price is already that.",
+      "bad_price": "Enter a valid price.",
+      "owner_only": "Only the owner can do this.",
+      "generic": "Not saved. Please try again."
+    }
+  },
+  "discountReport": {
+    "title": "Discounts by staff",
+    "hint": "Bill discounts (with the owner's PIN) and offer prices — by staff member and by day",
+    "staff": "Staff",
+    "bills": "Bills",
+    "billDiscount": "Bill discount",
+    "offerDiscount": "Offer discount",
+    "withPin": "{count} with PIN",
+    "byDay": "By day",
+    "none": "No discounts in this period.",
+    "csv": "Discounts"
   }
 }
